@@ -96,19 +96,24 @@
     #banner-container iframe { width: 100%; height: 100%; border: none; background: transparent; }
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding-top: 50px; overflow-y: auto; }
     .modal-content { background: var(--modal-bg); border: 1px solid var(--glass-border); color: var(--modal-text); margin: 20px auto; padding: 2rem; width: 90%; max-width: 750px; overflow-y: auto; max-height: calc(100vh - 100px); border-radius: 20px; position: relative; box-shadow: var(--modal-strong-shadow); transition: background 0.3s ease, border-color 0.3s ease; }
-    #deleteLinkModal .modal-content, #colorLegendModal .modal-content, #demoSaveModal .modal-content { max-width: 500px; }
-    #color-legend-entries { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+    /* REVISION: Centered the save modal content */
+    #deleteLinkModal .modal-content, #colorLegendModal .modal-content, #demoSaveModal .modal-content { max-width: 500px; text-align: center; }
+    /* REVISION: Increased share modal size */
+    #shareModal .modal-content { max-width: 1200px; }
+    #shareModal iframe { width: 100%; height: 85vh; border: none; }
+
+    #color-legend-entries { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; text-align: left; }
     .legend-entry { display: flex; align-items: center; gap: 1rem; }
     .legend-color-swatch { width: 32px; height: 32px; border-radius: 8px; border: 2px solid var(--glass-border); flex-shrink: 0; }
     .legend-entry input { flex-grow: 1; }
     .close-button { position: absolute; right: 15px; top: 15px; font-size: 24px; cursor: pointer; color: var(--close-button-color); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255, 255, 255, 0.1); transition: all 0.3s ease; z-index: 10; }
     .close-button:hover { color: var(--close-button-hover-color); background: rgba(255, 255, 255, 0.2); transform: scale(1.1); }
-    form { display: flex; flex-direction: column; gap: 1rem; }
+    form { display: flex; flex-direction: column; gap: 1rem; text-align: left; }
     input, select, textarea { padding: 12px 16px; border: 1px solid var(--input-border); border-radius: 12px; font-size: 1em; background: var(--input-bg); color: var(--input-text); font-family: 'Inter', 'Segoe UI', sans-serif; transition: all 0.3s ease; }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--glass-border); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1); transform: translateY(-1px); }
     textarea { resize: vertical; min-height: 80px; }
     #taskName { width: 100%; }
-    .modal-btn { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); color: var(--modal-text); padding: 10px 20px; border-radius: 10px; font-size: 1em; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
+    .modal-btn { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); color: var(--modal-text); padding: 10px 20px; border-radius: 10px; font-size: 1em; font-weight: 500; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-block; }
     .modal-btn:hover { background: rgba(255, 255, 255, 0.25); border-color: rgba(255, 255, 255, 0.3); transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); }
     .modal-btn:active { transform: translateY(0); box-shadow: none; }
     .modal-btn.danger { background-color: rgba(231, 76, 60, 0.5); }
@@ -121,10 +126,10 @@
     .node-name-html { font-weight: 500; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); word-break: break-word; flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 0 5px; }
     .task-count-pill-html { background: var(--task-count-rect-bg); color: var(--task-count-text-fill); padding: 4px 10px; border-radius: 14px; font-weight: 600; font-size: 0.9em; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); border: 1px solid var(--task-count-border); white-space: nowrap; margin-bottom: auto; }
     .priority-indicator { font-size: 0.8em; line-height: 1; margin-top: auto; align-self: flex-end; padding: 4px; }
-    #userGuideModal .modal-content ul {list-style: none; padding: 0;}
+    #userGuideModal .modal-content ul {list-style: none; padding: 0; text-align: left;}
     #userGuideModal .modal-content a { color: var(--modal-text); text-decoration: underline; }
     .modal-content h2, #userGuideModal .modal-content h2 { font-size: 1.5em; margin-bottom: 1em; }
-    .modal-content h3, #userGuideModal .modal-content h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-size: 1.15em; color: var(--modal-text); }
+    .modal-content h3, #userGuideModal .modal-content h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-size: 1.15em; color: var(--modal-text); text-align: left;}
     .modal-content li, #userGuideModal .modal-content li { margin-bottom: 0.7em; line-height: 1.6; }
     #userGuideModal .modal-content li strong { font-weight: 600; color: var(--modal-text); }
     .modal-content p, #userGuideModal .modal-content p { margin-bottom: 1em; line-height: 1.6; }
@@ -162,7 +167,7 @@
   <div id="color-legend-display"></div>
 
   <div id="flowchartContainer">
-    <div id="banner-container"><iframe src="https://transcendence.media/SmartWealth-Banner" allowtransparency="true" scrolling="no" frameborder="0"></iframe></div>
+    <div id="banner-container"><iframe src="https://view.genially.com/6851f73b42060080e8ea8922" allowtransparency="true" scrolling="no" frameborder="0"></iframe></div>
     <svg id="flowchart"></svg>
   </div>
 
@@ -175,13 +180,12 @@
       <p>As a Demo, this version cannot save or export flowcharts.</p>
       <p><strong>To purchase the full FlowChart Manager template with saving capabilities:</strong></p>
       <div style="text-align: center; margin: 2rem 0;">
+        <!-- REVISION: Removed emoji from button text -->
         <a href="https://www.socialeap.net/shop-flowchart" target="_blank" class="modal-btn primary">
-          🛒 Visit Our Product Page
+          Visit Our Product Page
         </a>
       </div>
-      <p style="font-size: 0.9em; color: var(--modal-text); opacity: 0.8;">
-        The full version includes save/export functionality, unlimited projects, and premium support.
-      </p>
+      <!-- REVISION: Removed extra paragraph -->
     </div>
   </div>
   
@@ -240,358 +244,48 @@
         "generatedDate": "2025-06-16 09:09:41 PM EDT"
       },
       "nodes": [
-        {
-          "id": "phase-1-initiation",
-          "name": "Phase 1: Project Initiation",
-          "status": "Completed",
-          "responsible": "Project Lead",
-          "deadline": "2025-01-15",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":true,\"task\":\"Define project scope and objectives\"},{\"completed\":true,\"task\":\"Assemble core project team\"}]",
-          "color": "#3498db",
-          "x": 879.5043144226074,
-          "y": 219.67623901367188,
-          "fx": 879.5043144226074,
-          "fy": 219.67623901367188
-        },
-        {
-          "id": "task-1-1-kickoff",
-          "name": "Task: Conduct Project Kick-off Meeting",
-          "status": "Completed",
-          "responsible": "Project Lead",
-          "deadline": "2025-01-10",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":true,\"task\":\"Set initial agenda\"},{\"completed\":true,\"task\":\"Invite stakeholders\"},{\"completed\":true,\"task\":\"Distribute project brief\"}]",
-          "color": "#2ecc71",
-          "x": 694.8091735839844,
-          "y": 572.0126037597656,
-          "fx": 694.8091735839844,
-          "fy": 572.0126037597656
-        },
-        {
-          "id": "task-1-2-req",
-          "name": "Task: Gather Initial Requirements",
-          "status": "Completed",
-          "responsible": "Product Team",
-          "deadline": "2025-01-15",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":true,\"task\":\"Interview key users\"},{\"completed\":true,\"task\":\"Document functional requirements\"}]",
-          "color": "#2ecc71",
-          "x": 906.9922332763672,
-          "y": 574.95534324646,
-          "fx": 906.9922332763672,
-          "fy": 574.95534324646
-        },
-        {
-          "id": "milestone-1-scope",
-          "name": "Milestone: Scope Approved Milestone",
-          "status": "Completed",
-          "responsible": "Steering Committee",
-          "deadline": "2025-01-20",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":true,\"task\":\"Formal scope sign-off\"}]",
-          "color": "#9b59b6",
-          "x": 909.2677001953125,
-          "y": 1032.7422943115234,
-          "fx": 909.2677001953125,
-          "fy": 1032.7422943115234
-        },
-        {
-          "id": "phase-2-planning",
-          "name": "Phase 2: Planning & Design",
-          "status": "In Progress",
-          "responsible": "Project Team",
-          "deadline": "2025-03-01",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Develop detailed project plan\"},{\"completed\":false,\"task\":\"Create UX/UI designs\"}]",
-          "color": "#3498db",
-          "x": 1206.5489807128906,
-          "y": 222.17977905273438,
-          "fx": 1206.5489807128906,
-          "fy": 222.17977905273438
-        },
-        {
-          "id": "task-2-1-plan",
-          "name": "Task: Develop Detailed Project Plan",
-          "status": "In Progress",
-          "responsible": "Project Lead",
-          "deadline": "2025-02-10",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Breakdown tasks into sprints\"},{\"completed\":false,\"task\":\"Allocate resources\"},{\"completed\":false,\"task\":\"Define timelines\"}]",
-          "color": "#f1c40f",
-          "x": 1175.6349182128906,
-          "y": 580.3052139282227,
-          "fx": 1175.6349182128906,
-          "fy": 580.3052139282227
-        },
-        {
-          "id": "task-2-2-design",
-          "name": "Task: Create UX/UI Designs",
-          "status": "In Progress",
-          "responsible": "Design Team",
-          "deadline": "2025-02-28",
-          "priority": "Normal",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Wireframe user flows\"},{\"completed\":false,\"task\":\"Design mockups\"},{\"completed\":false,\"task\":\"Conduct usability testing\"}]",
-          "color": "#f1c40f",
-          "x": 1368.5739440917969,
-          "y": 583.7210378050804,
-          "fx": 1368.5739440917969,
-          "fy": 583.7210378050804
-        },
-        {
-          "id": "milestone-2-design",
-          "name": "Milestone: Design Approved Milestone",
-          "status": "Not Started",
-          "responsible": "Product Owner",
-          "deadline": "2025-03-05",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Review and approve final designs\"}]",
-          "color": "#9b59b6",
-          "x": 1349.9161071777344,
-          "y": 1027.2073516845703,
-          "fx": 1349.9161071777344,
-          "fy": 1027.2073516845703
-        },
-        {
-          "id": "phase-3-dev",
-          "name": "Phase 3: Development & QA",
-          "status": "Not Started",
-          "responsible": "Engineering Lead",
-          "deadline": "2025-05-15",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Develop core features\"},{\"completed\":false,\"task\":\"Perform rigorous testing\"}]",
-          "color": "#3498db",
-          "x": 1687.9382629394531,
-          "y": 222.17977905273438,
-          "fx": 1687.9382629394531,
-          "fy": 222.17977905273438
-        },
-        {
-          "id": "task-3-1-backend",
-          "name": "Task: Backend Development",
-          "status": "Not Started",
-          "responsible": "Backend Team",
-          "deadline": "2025-04-30",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Set up APIs\"},{\"completed\":false,\"task\":\"Database integration\"},{\"completed\":false,\"task\":\"Server-side logic\"}]",
-          "color": "#e74c3c",
-          "x": 1627.4908142089844,
-          "y": 582.8297729492188,
-          "fx": 1627.4908142089844,
-          "fy": 582.8297729492188
-        },
-        {
-          "id": "task-3-2-frontend",
-          "name": "Task: Frontend Development",
-          "status": "Not Started",
-          "responsible": "Frontend Team",
-          "deadline": "2025-05-10",
-          "priority": "Normal",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Build user interface\"},{\"completed\":false,\"task\":\"Integrate with backend APIs\"}]",
-          "color": "#e74c3c",
-          "x": 1848.0062561035156,
-          "y": 578.5071258544922,
-          "fx": 1848.0062561035156,
-          "fy": 578.5071258544922
-        },
-        {
-          "id": "task-3-3-qa",
-          "name": "Task: Quality Assurance Testing",
-          "status": "Not Started",
-          "responsible": "QA Team",
-          "deadline": "2025-05-15",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Develop test cases\"},{\"completed\":false,\"task\":\"Execute unit tests\"},{\"completed\":false,\"task\":\"Perform integration tests\"},{\"completed\":false,\"task\":\"Conduct UAT with stakeholders\"}]",
-          "color": "#e74c3c",
-          "x": 1742.5062561035156,
-          "y": 793.7596893310547,
-          "fx": 1742.5062561035156,
-          "fy": 793.7596893310547
-        },
-        {
-          "id": "milestone-3-devcomplete",
-          "name": "Milestone: Development Complete Milestone",
-          "status": "Not Started",
-          "responsible": "Engineering Lead",
-          "deadline": "2025-05-20",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":false,\"task\":\"All features developed and tested\"}]",
-          "color": "#9b59b6",
-          "x": 1901.0710754394531,
-          "y": 1024.5800018310547,
-          "fx": 1901.0710754394531,
-          "fy": 1024.5800018310547
-        },
-        {
-          "id": "phase-4-launch",
-          "name": "Phase 4: Launch & Post-Launch",
-          "status": "Not Started",
-          "responsible": "Marketing Lead",
-          "deadline": "2025-06-30",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Execute marketing campaign\"},{\"completed\":false,\"task\":\"Monitor post-launch performance\"}]",
-          "color": "#3498db",
-          "x": 2125.8226013183594,
-          "y": 217.6391143798828,
-          "fx": 2125.8226013183594,
-          "fy": 217.6391143798828
-        },
-        {
-          "id": "task-4-1-marketing",
-          "name": "Task: Prepare & Execute Marketing Campaign",
-          "status": "Not Started",
-          "responsible": "Marketing Team",
-          "deadline": "2025-06-01",
-          "priority": "Normal",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Create launch content\"},{\"completed\":false,\"task\":\"Plan social media campaign\"},{\"completed\":false,\"task\":\"Set up advertising channels\"}]",
-          "color": "#e74c3c",
-          "x": 2145.274871826172,
-          "y": 583.5883026123047,
-          "fx": 2145.274871826172,
-          "fy": 583.5883026123047
-        },
-        {
-          "id": "task-4-2-deployment",
-          "name": "Task: Final Deployment",
-          "status": "Not Started",
-          "responsible": "DevOps",
-          "deadline": "2025-06-10",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Prepare production environment\"},{\"completed\":false,\"task\":\"Execute deployment script\"}]",
-          "color": "#e74c3c",
-          "x": 2401.606414794922,
-          "y": 583.2978973388672,
-          "fx": 2401.606414794922,
-          "fy": 583.2978973388672
-        },
-        {
-          "id": "milestone-4-launchday",
-          "name": "Milestone: Product Launch Day!",
-          "status": "Not Started",
-          "responsible": "All Teams",
-          "deadline": "2025-06-15",
-          "priority": "High",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Execute launch plan\"},{\"completed\":false,\"task\":\"Monitor systems closely\"}]",
-          "color": "#9b59b6",
-          "x": 2200.481903076172,
-          "y": 1025.9265594482422,
-          "fx": 2200.481903076172,
-          "fy": 1025.9265594482422
-        },
-        {
-          "id": "task-4-3-review",
-          "name": "Task: Post-Launch Review & Iteration",
-          "status": "Not Started",
-          "responsible": "Project Lead",
-          "deadline": "2025-06-30",
-          "priority": "Normal",
-          "actionDescription": "[{\"completed\":false,\"task\":\"Gather user feedback\"},{\"completed\":false,\"task\":\"Analyze performance metrics\"},{\"completed\":false,\"task\":\"Plan next iterations\"}]",
-          "color": "#e74c3c",
-          "x": 2452.9772033691406,
-          "y": 1181.0501556396484,
-          "fx": 2452.9772033691406,
-          "fy": 1181.0501556396484
-        }
+        { "id": "phase-1-initiation", "name": "Phase 1: Project Initiation", "status": "Completed", "responsible": "Project Lead", "deadline": "2025-01-15", "priority": "High", "actionDescription": "[{\"completed\":true,\"task\":\"Define project scope and objectives\"},{\"completed\":true,\"task\":\"Assemble core project team\"}]", "color": "#3498db", "x": 879.5, "y": 219.6 },
+        { "id": "task-1-1-kickoff", "name": "Task: Conduct Project Kick-off Meeting", "status": "Completed", "responsible": "Project Lead", "deadline": "2025-01-10", "priority": "High", "actionDescription": "[{\"completed\":true,\"task\":\"Set initial agenda\"},{\"completed\":true,\"task\":\"Invite stakeholders\"},{\"completed\":true,\"task\":\"Distribute project brief\"}]", "color": "#2ecc71", "x": 694.8, "y": 572.0 },
+        { "id": "task-1-2-req", "name": "Task: Gather Initial Requirements", "status": "Completed", "responsible": "Product Team", "deadline": "2025-01-15", "priority": "High", "actionDescription": "[{\"completed\":true,\"task\":\"Interview key users\"},{\"completed\":true,\"task\":\"Document functional requirements\"}]", "color": "#2ecc71", "x": 906.9, "y": 574.9 },
+        { "id": "milestone-1-scope", "name": "Milestone: Scope Approved Milestone", "status": "Completed", "responsible": "Steering Committee", "deadline": "2025-01-20", "priority": "High", "actionDescription": "[{\"completed\":true,\"task\":\"Formal scope sign-off\"}]", "color": "#9b59b6", "x": 909.2, "y": 1032.7 },
+        { "id": "phase-2-planning", "name": "Phase 2: Planning & Design", "status": "In Progress", "responsible": "Project Team", "deadline": "2025-03-01", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Develop detailed project plan\"},{\"completed\":false,\"task\":\"Create UX/UI designs\"}]", "color": "#3498db", "x": 1206.5, "y": 222.1 },
+        { "id": "task-2-1-plan", "name": "Task: Develop Detailed Project Plan", "status": "In Progress", "responsible": "Project Lead", "deadline": "2025-02-10", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Breakdown tasks into sprints\"},{\"completed\":false,\"task\":\"Allocate resources\"},{\"completed\":false,\"task\":\"Define timelines\"}]", "color": "#f1c40f", "x": 1175.6, "y": 580.3 },
+        { "id": "task-2-2-design", "name": "Task: Create UX/UI Designs", "status": "In Progress", "responsible": "Design Team", "deadline": "2025-02-28", "priority": "Normal", "actionDescription": "[{\"completed\":false,\"task\":\"Wireframe user flows\"},{\"completed\":false,\"task\":\"Design mockups\"},{\"completed\":false,\"task\":\"Conduct usability testing\"}]", "color": "#f1c40f", "x": 1368.5, "y": 583.7 },
+        { "id": "milestone-2-design", "name": "Milestone: Design Approved Milestone", "status": "Not Started", "responsible": "Product Owner", "deadline": "2025-03-05", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Review and approve final designs\"}]", "color": "#9b59b6", "x": 1349.9, "y": 1027.2 },
+        { "id": "phase-3-dev", "name": "Phase 3: Development & QA", "status": "Not Started", "responsible": "Engineering Lead", "deadline": "2025-05-15", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Develop core features\"},{\"completed\":false,\"task\":\"Perform rigorous testing\"}]", "color": "#3498db", "x": 1687.9, "y": 222.1 },
+        { "id": "task-3-1-backend", "name": "Task: Backend Development", "status": "Not Started", "responsible": "Backend Team", "deadline": "2025-04-30", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Set up APIs\"},{\"completed\":false,\"task\":\"Database integration\"},{\"completed\":false,\"task\":\"Server-side logic\"}]", "color": "#e74c3c", "x": 1627.4, "y": 582.8 },
+        { "id": "task-3-2-frontend", "name": "Task: Frontend Development", "status": "Not Started", "responsible": "Frontend Team", "deadline": "2025-05-10", "priority": "Normal", "actionDescription": "[{\"completed\":false,\"task\":\"Build user interface\"},{\"completed\":false,\"task\":\"Integrate with backend APIs\"}]", "color": "#e74c3c", "x": 1848.0, "y": 578.5 },
+        { "id": "task-3-3-qa", "name": "Task: Quality Assurance Testing", "status": "Not Started", "responsible": "QA Team", "deadline": "2025-05-15", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Develop test cases\"},{\"completed\":false,\"task\":\"Execute unit tests\"},{\"completed\":false,\"task\":\"Perform integration tests\"},{\"completed\":false,\"task\":\"Conduct UAT with stakeholders\"}]", "color": "#e74c3c", "x": 1742.5, "y": 793.7 },
+        { "id": "milestone-3-devcomplete", "name": "Milestone: Development Complete Milestone", "status": "Not Started", "responsible": "Engineering Lead", "deadline": "2025-05-20", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"All features developed and tested\"}]", "color": "#9b59b6", "x": 1901.0, "y": 1024.5 },
+        { "id": "phase-4-launch", "name": "Phase 4: Launch & Post-Launch", "status": "Not Started", "responsible": "Marketing Lead", "deadline": "2025-06-30", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Execute marketing campaign\"},{\"completed\":false,\"task\":\"Monitor post-launch performance\"}]", "color": "#3498db", "x": 2125.8, "y": 217.6 },
+        { "id": "task-4-1-marketing", "name": "Task: Prepare & Execute Marketing Campaign", "status": "Not Started", "responsible": "Marketing Team", "deadline": "2025-06-01", "priority": "Normal", "actionDescription": "[{\"completed\":false,\"task\":\"Create launch content\"},{\"completed\":false,\"task\":\"Plan social media campaign\"},{\"completed\":false,\"task\":\"Set up advertising channels\"}]", "color": "#e74c3c", "x": 2145.2, "y": 583.5 },
+        { "id": "task-4-2-deployment", "name": "Task: Final Deployment", "status": "Not Started", "responsible": "DevOps", "deadline": "2025-06-10", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Prepare production environment\"},{\"completed\":false,\"task\":\"Execute deployment script\"}]", "color": "#e74c3c", "x": 2401.6, "y": 583.2 },
+        { "id": "milestone-4-launchday", "name": "Milestone: Product Launch Day!", "status": "Not Started", "responsible": "All Teams", "deadline": "2025-06-15", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Execute launch plan\"},{\"completed\":false,\"task\":\"Monitor systems closely\"}]", "color": "#9b59b6", "x": 2200.4, "y": 1025.9 },
+        { "id": "task-4-3-review", "name": "Task: Post-Launch Review & Iteration", "status": "Not Started", "responsible": "Project Lead", "deadline": "2025-06-30", "priority": "Normal", "actionDescription": "[{\"completed\":false,\"task\":\"Gather user feedback\"},{\"completed\":false,\"task\":\"Analyze performance metrics\"},{\"completed\":false,\"task\":\"Plan next iterations\"}]", "color": "#e74c3c", "x": 2452.9, "y": 1181.0 }
       ],
       "links": [
-        {
-          "source": "phase-1-initiation",
-          "target": "task-1-1-kickoff"
-        },
-        {
-          "source": "phase-1-initiation",
-          "target": "task-1-2-req"
-        },
-        {
-          "source": "task-1-1-kickoff",
-          "target": "milestone-1-scope"
-        },
-        {
-          "source": "task-1-2-req",
-          "target": "milestone-1-scope"
-        },
-        {
-          "source": "milestone-1-scope",
-          "target": "phase-2-planning"
-        },
-        {
-          "source": "phase-2-planning",
-          "target": "task-2-1-plan"
-        },
-        {
-          "source": "phase-2-planning",
-          "target": "task-2-2-design"
-        },
-        {
-          "source": "task-2-1-plan",
-          "target": "milestone-2-design"
-        },
-        {
-          "source": "task-2-2-design",
-          "target": "milestone-2-design"
-        },
-        {
-          "source": "milestone-2-design",
-          "target": "phase-3-dev"
-        },
-        {
-          "source": "phase-3-dev",
-          "target": "task-3-1-backend"
-        },
-        {
-          "source": "phase-3-dev",
-          "target": "task-3-2-frontend"
-        },
-        {
-          "source": "task-3-1-backend",
-          "target": "task-3-3-qa"
-        },
-        {
-          "source": "task-3-2-frontend",
-          "target": "task-3-3-qa"
-        },
-        {
-          "source": "task-3-3-qa",
-          "target": "milestone-3-devcomplete"
-        },
-        {
-          "source": "milestone-3-devcomplete",
-          "target": "phase-4-launch"
-        },
-        {
-          "source": "phase-4-launch",
-          "target": "task-4-1-marketing"
-        },
-        {
-          "source": "phase-4-launch",
-          "target": "task-4-2-deployment"
-        },
-        {
-          "source": "task-4-1-marketing",
-          "target": "milestone-4-launchday"
-        },
-        {
-          "source": "task-4-2-deployment",
-          "target": "milestone-4-launchday"
-        },
-        {
-          "source": "milestone-4-launchday",
-          "target": "task-4-3-review"
-        }
+        { "source": "phase-1-initiation", "target": "task-1-1-kickoff" }, { "source": "phase-1-initiation", "target": "task-1-2-req" },
+        { "source": "task-1-1-kickoff", "target": "milestone-1-scope" }, { "source": "task-1-2-req", "target": "milestone-1-scope" },
+        { "source": "milestone-1-scope", "target": "phase-2-planning" }, { "source": "phase-2-planning", "target": "task-2-1-plan" },
+        { "source": "phase-2-planning", "target": "task-2-2-design" }, { "source": "task-2-1-plan", "target": "milestone-2-design" },
+        { "source": "task-2-2-design", "target": "milestone-2-design" }, { "source": "milestone-2-design", "target": "phase-3-dev" },
+        { "source": "phase-3-dev", "target": "task-3-1-backend" }, { "source": "phase-3-dev", "target": "task-3-2-frontend" },
+        { "source": "task-3-1-backend", "target": "task-3-3-qa" }, { "source": "task-3-2-frontend", "target": "task-3-3-qa" },
+        { "source": "task-3-3-qa", "target": "milestone-3-devcomplete" }, { "source": "milestone-3-devcomplete", "target": "phase-4-launch" },
+        { "source": "phase-4-launch", "target": "task-4-1-marketing" }, { "source": "phase-4-launch", "target": "task-4-2-deployment" },
+        { "source": "task-4-1-marketing", "target": "milestone-4-launchday" }, { "source": "task-4-2-deployment", "target": "milestone-4-launchday" },
+        { "source": "milestone-4-launchday", "target": "task-4-3-review" }
       ],
       "colorLegend": {
-        "#3498db": "Phase Nodes (High-Level Stages)",
-        "#2ecc71": "Completed Tasks",
-        "#f1c40f": "In-Progress Tasks",
-        "#e74c3c": "Not Started / Critical Tasks",
-        "#9b59b6": "Key Milestones"
+        "#3498db": "Phase Nodes (High-Level Stages)", "#2ecc71": "Completed Tasks", "#f1c40f": "In-Progress Tasks",
+        "#e74c3c": "Not Started / Critical Tasks", "#9b59b6": "Key Milestones"
       }
     };
 
     let selectedNode = null, selectedLink = null,
-      data = JSON.parse(JSON.stringify(DEMO_DATA)), // Deep copy of demo data
+      data = JSON.parse(JSON.stringify(DEMO_DATA)),
       simulation, svg, nodeGroup, linkGroup, mainZoomGroup,
-      isInitialLayout = true; // Flag to track the first layout
+      isInitialLayout = true;
     const BASE_NODE_DIMENSION = 160;
     let currentNodeSizeFactor = 1.0;
     const MIN_NODE_SIZE_FACTOR = 0.5, MAX_NODE_SIZE_FACTOR = 1.5, NODE_SIZE_STEP = 0.1;
@@ -616,12 +310,18 @@
         mainZoomGroup = svg.append('g').attr('class', 'zoom-group');
         linkGroup = mainZoomGroup.append('g').attr('class', 'links');
         nodeGroup = mainZoomGroup.append('g').attr('class', 'nodes');
-        const zoom = d3.zoom().filter(event => !event.target.closest('.node-group')).on('zoom', (event) => { mainZoomGroup.attr('transform', event.transform); });
-        svg.call(zoom).on("dblclick.zoom", null);
+        
         simulation = d3.forceSimulation()
             .force('charge', d3.forceManyBody().strength(-1800 * (BASE_NODE_DIMENSION / 160)))
             .force('collide', d3.forceCollide().radius((BASE_NODE_DIMENSION * 0.55) + 25).strength(0.9))
             .force('center', d3.forceCenter(vW / 2, vH / 2));
+            
+        const zoom = d3.zoom()
+            .filter(event => !event.target.closest('.node-group'))
+            .on('zoom', (event) => {
+                mainZoomGroup.attr('transform', event.transform);
+            });
+        svg.call(zoom).on("dblclick.zoom", null);
     }
     
     function ticked() {
@@ -638,27 +338,22 @@
         });
     }
 
-    // START: REVISED D3 DRAG BEHAVIOR
     const drag = d3.drag()
         .on('start', function(event, d) {
-            if (connectorMode) return;
             if (!event.active) simulation.alphaTarget(0.3).restart();
             d.fx = d.x;
             d.fy = d.y;
-            d3.select(this).select('.flowchart-node-html').classed('dragging', true);
+            d3.select(this).classed('dragging', true);
         })
         .on('drag', function(event, d) {
-            if (connectorMode) return;
             d.fx = event.x;
             d.fy = event.y;
         })
         .on('end', function(event, d) {
-            if (connectorMode) return;
             if (!event.active) simulation.alphaTarget(0);
-            d3.select(this).select('.flowchart-node-html').classed('dragging', false);
+            d3.select(this).classed('dragging', false);
         });
-    // END: REVISED D3 DRAG BEHAVIOR
-
+    
     function update() {
         if (!svg || !simulation) return;
         updateLegendDisplay();
@@ -749,8 +444,7 @@
             else { pillDiv.style('display', 'none'); }
         });
         
-        simulation.alpha(1).restart();
-        simulation.tick();
+        simulation.alpha(0.3).restart();
     }
 
     function getIntersectionPoint(sourceNode, targetNode, width, height) {
@@ -808,7 +502,6 @@
     function initializeApp() {
         initD3();
         
-        // Load demo data immediately
         g('flowchartNameInput').value = data.flowchartName;
         updateProjectDescButton();
         
@@ -834,14 +527,12 @@
             connectorStartNode = null; 
             addConnBtn.classList.toggle('active', connectorMode); 
             g('flowchart').style.cursor = connectorMode ? 'crosshair' : 'default'; 
-            // If connector mode is turned off, remove any lingering visual feedback
             if (!connectorMode) {
                 nodeGroup.selectAll('.flowchart-node-html').style('outline', 'none');
             }
         });
         g('addNodeBtn').onclick = (e) => { e.preventDefault(); const nN = createNode(selectedNode); if (nN) { selectedNode = nN; nodeClick({ stopPropagation: () => {}, defaultPrevented: false }, nN); } };
         
-        // Demo save button - shows popup instead of saving
         g('saveBtn').onclick = demoSaveToFile;
         g('closeDemoSaveModal').onclick = () => g('demoSaveModal').style.display = 'none';
         
@@ -864,10 +555,9 @@
         g('deleteNodeBtn').addEventListener('click', () => { if (selectedNode && confirm('Delete node?')) { const selectedId = selectedNode.id; data.nodes = data.nodes.filter((n) => n.id !== selectedId); data.links = data.links.filter(l => (l.source.id || l.source) !== selectedId && (l.target.id || l.target) !== selectedId); selectedNode = null; isInitialLayout = false; update(); } g('modal').style.display = 'none'; });
         g('flowchartNameInput').addEventListener('input', function () { data.flowchartName = this.value || 'Untitled'; });
         
-        // Initialize with demo data
         isInitialLayout = true;
         update();
     }
   </script>
 </body>
-</html
+</html>
