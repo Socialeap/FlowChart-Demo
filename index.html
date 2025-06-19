@@ -44,6 +44,8 @@
       --modal-strong-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
       --link-color: #555;
       --link-selected-color: #e74c3c;
+      --demo-badge-bg: #ff6b35;
+      --demo-badge-text: white;
     }
 
     body.dark-mode {
@@ -63,6 +65,7 @@
       --modal-strong-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
       --link-color: #aaa;
       --link-selected-color: #ff5252;
+      --demo-badge-bg: #ff8a50;
     }
 
     * { box-sizing: border-box; }
@@ -71,17 +74,7 @@
     header { background: var(--header-fixed-bg); backdrop-filter: blur(var(--backdrop-blur)); -webkit-backdrop-filter: blur(var(--backdrop-blur)); border-bottom: 1px solid var(--header-glass-border); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); color: var(--text-on-header); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; position: sticky; top: 0; z-index: 999; }
     header h1 { display: flex; align-items: center; margin: 0; font-size: 1.75rem; font-weight: 600; color: var(--text-on-header); }
     #headerLogo { width: 32px; height: 32px; margin-right: 0.75rem; }
-    #demoTitle {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #f1c40f;
-        margin-left: 1rem;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(241, 196, 15, 0.5);
-        text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-    }
+    .demo-badge { background: var(--demo-badge-bg); color: var(--demo-badge-text); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-left: 1rem; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
     header h1 input#flowchartNameInput { margin-left: 1rem; font-size: 0.9rem; padding: 0.5rem 1rem; border: 1px solid var(--input-border); border-radius: 8px; background: var(--input-bg); color: var(--input-text); transition: all 0.3s ease; font-weight: 400; }
     header h1 input#flowchartNameInput:focus { outline: none; border-color: var(--glass-border); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1); }
     nav { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
@@ -99,11 +92,11 @@
     #flowchart { display: block; width: 100%; height: 100%; }
     line.link { cursor: pointer; transition: stroke 0.3s ease, stroke-width 0.3s ease; }
     line.link.selected { stroke: var(--link-selected-color) !important; stroke-width: 4px; stroke-dasharray: 5, 5; }
-    #banner-container { position: absolute; top: 10px; left: 10px; width: 48%; max-width: 570px; aspect-ratio: 1500 / 625; border-radius: 12px; overflow: hidden; background: transparent; z-index: 50; pointer-events: none; }
+    #banner-container { position: absolute; top: 10px; left: 10px; width: 48%; max-width: 588px; aspect-ratio: 1500 / 625; border-radius: 12px; overflow: hidden; background: transparent; z-index: 50; pointer-events: none; }
     #banner-container iframe { width: 100%; height: 100%; border: none; background: transparent; }
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding-top: 50px; overflow-y: auto; }
     .modal-content { background: var(--modal-bg); border: 1px solid var(--glass-border); color: var(--modal-text); margin: 20px auto; padding: 2rem; width: 90%; max-width: 750px; overflow-y: auto; max-height: calc(100vh - 100px); border-radius: 20px; position: relative; box-shadow: var(--modal-strong-shadow); transition: background 0.3s ease, border-color 0.3s ease; }
-    #deleteLinkModal .modal-content, #colorLegendModal .modal-content, #saveDisabledModal .modal-content { max-width: 500px; }
+    #deleteLinkModal .modal-content, #colorLegendModal .modal-content, #demoSaveModal .modal-content { max-width: 500px; }
     #color-legend-entries { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
     .legend-entry { display: flex; align-items: center; gap: 1rem; }
     .legend-color-swatch { width: 32px; height: 32px; border-radius: 8px; border: 2px solid var(--glass-border); flex-shrink: 0; }
@@ -120,6 +113,8 @@
     .modal-btn:active { transform: translateY(0); box-shadow: none; }
     .modal-btn.danger { background-color: rgba(231, 76, 60, 0.5); }
     .modal-btn.danger:hover { background-color: rgba(231, 76, 60, 0.7); }
+    .modal-btn.primary { background-color: rgba(52, 152, 219, 0.7); color: white; }
+    .modal-btn.primary:hover { background-color: rgba(52, 152, 219, 0.9); }
     .flowchart-node-html-wrapper { overflow: visible; }
     .flowchart-node-html { background-color: transparent; border: 1px solid var(--glass-border); box-shadow: var(--modal-strong-shadow); border-radius: 18px; width: 100%; height: 100%; display: flex; flex-direction: column; padding: 8px; box-sizing: border-box; color: var(--node-text-fill); text-align: center; cursor: move; overflow: hidden; transition: background-color 0.3s ease, border-color 0.3s ease; }
     .flowchart-node-html.dragging { transition: none !important; }
@@ -133,9 +128,6 @@
     .modal-content li, #userGuideModal .modal-content li { margin-bottom: 0.7em; line-height: 1.6; }
     #userGuideModal .modal-content li strong { font-weight: 600; color: var(--modal-text); }
     .modal-content p, #userGuideModal .modal-content p { margin-bottom: 1em; line-height: 1.6; }
-    .modal-content a { color: var(--link-color); font-weight: 600; text-decoration: underline; }
-    body.dark-mode .modal-content a { color: var(--link-selected-color); }
-
   </style>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
@@ -143,21 +135,26 @@
 
 <body>
   <header>
-    <h1><img src="https://static.wixstatic.com/media/c3283f_a3e1ec47496f42f7be617a2cd7a7bc9e~mv2.png" alt="Logo" id="headerLogo"/> FlowChart Manager <span id="demoTitle">Demo & Tutorial</span></h1>
+    <h1>
+      <img src="https://static.wixstatic.com/media/c3283f_a3e1ec47496f42f7be617a2cd7a7bc9e~mv2.png" alt="Logo" id="headerLogo"/> 
+      FlowChart Manager
+      <span class="demo-badge">Demo & Tutorial</span>
+      <input type="text" id="flowchartNameInput" placeholder="Enter Flowchart Name…" readonly/>
+    </h1>
     <nav>
       <button id="nodeSizeIncreaseBtn" data-tooltip-text="Increase Node Size"><i class="fas fa-plus"></i></button>
       <button id="nodeSizeDecreaseBtn" data-tooltip-text="Decrease Node Size"><i class="fas fa-minus"></i></button>
       <button id="aiAssistantBtn" data-tooltip-text="AI Assistant (turn off 'Full Screen')"><i class="fas fa-lightbulb"></i></button>
       <button id="userGuideBtn" data-tooltip-text="User Guide"><i class="fas fa-book-open"></i></button>
       <button id="colorLegendBtn" data-tooltip-text="Color Legend"><i class="fas fa-palette"></i></button>
-      <button id="templateBtn" data-tooltip-text="Load a Template"><i class="fas fa-file-alt"></i></button>
-      <button id="projectDescBtn" style="display: none;" data-tooltip-text="Project Description"><i class="fas fa-info-circle"></i></button>
+      <button id="templateBtn" data-tooltip-text="Load a Template" style="display: none;"><i class="fas fa-file-alt"></i></button>
+      <button id="projectDescBtn" data-tooltip-text="Project Description"><i class="fas fa-info-circle"></i></button>
       <button id="addConnectorBtn" data-tooltip-text="Add Connector"><i class="fas fa-link"></i></button>
-      <button id="saveBtn" data-tooltip-text="Save Flowchart"><i class="fas fa-floppy-disk"></i></button>
+      <button id="saveBtn" data-tooltip-text="Save Flowchart (Demo Mode)"><i class="fas fa-floppy-disk"></i></button>
       <button id="shareBtn" data-tooltip-text="Share"><i class="fas fa-share-alt"></i></button>
       <input type="file" id="fileInput" accept=".json" style="display: none;" />
-      <button id="uploadBtn" data-tooltip-text="Upload Flowchart"><i class="fas fa-upload"></i></button>
-      <div id="fileNameDisplay">No file loaded</div>
+      <button id="uploadBtn" data-tooltip-text="Upload Flowchart" style="display: none;"><i class="fas fa-upload"></i></button>
+      <div id="fileNameDisplay">Demo: Project Phoenix</div>
       <button id="themeToggleBtn" data-tooltip-text="Toggle Theme"><i class="fas fa-moon"></i></button>
     </nav>
   </header>
@@ -170,6 +167,24 @@
   </div>
 
   <div id="modal" class="modal"><div class="modal-content"><span class="close-button" id="closeModal">×</span><h2>Task Details</h2><form id="taskForm"><label>Task Name: <textarea id="taskName" required></textarea></label><label>Responsible: <input type="text" id="responsible" /></label><label>Status:<select id="status"><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option></select></label><label>Deadline: <input type="date" id="deadline" /></label><label>Priority:<select id="priority"><option value="Low">Low</option><option value="Normal">Normal</option><option value="High">High</option></select></label><label>Action Description (Sub-tasks):</label><table id="taskTable"><thead><tr><th style="width: 30px;">✓</th><th>Task</th></tr></thead><tbody></tbody></table><button type="button" id="addTaskRowBtn" class="modal-btn">Add Task</button><label>Node Color:</label><input type="hidden" id="nodeColor" /><div class="color-panel"><div class="color-swatch" data-color="#e74c3c"></div><div class="color-swatch" data-color="#f1c40f"></div><div class="color-swatch" data-color="#2ecc71"></div><div class="color-swatch" data-color="#3498db"></div><div class="color-swatch" data-color="#9b59b6"></div><div class="color-swatch" data-color="#34495e"></div></div><div class="action-buttons"><button type="submit" class="modal-btn">Save Node</button><button type="button" class="modal-btn" id="addNodeBtn">Add Child Node</button></div><div style="text-align: center; margin-top: 20px;"><button type="button" id="deleteNodeBtn" class="modal-btn danger">Delete Node</button></div></form></div></div>
+  
+  <div id="demoSaveModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" id="closeDemoSaveModal">×</span>
+      <h2>🚫 Demo Version - Save Not Available</h2>
+      <p>As a Demo, this version cannot save or export flowcharts.</p>
+      <p><strong>To purchase the full FlowChart Manager template with saving capabilities:</strong></p>
+      <div style="text-align: center; margin: 2rem 0;">
+        <a href="https://www.socialeap.net/shop-flowchart" target="_blank" class="modal-btn primary">
+          🛒 Visit Our Product Page
+        </a>
+      </div>
+      <p style="font-size: 0.9em; color: var(--modal-text); opacity: 0.8;">
+        The full version includes save/export functionality, unlimited projects, and premium support.
+      </p>
+    </div>
+  </div>
+  
   <div id="templateModal" class="modal"><div class="modal-content"><span class="close-button" id="closeTemplateModal">×</span><h2>Select Template</h2><div style="display: flex; flex-direction: column; gap: 1rem;"><button class="modal-btn" data-template="prototype">Prototype Development</button><button class="modal-btn" data-template="vendor">Vendor Outreach</button><button class="modal-btn" data-template="marketing">Marketing Campaign</button></div></div></div>
   <div id="taskTextPopup" class="modal"><div class="modal-content"><span class="close-button" id="closeTaskPopup">×</span><p id="taskFullText" style="white-space: pre-wrap; max-height: 60vh; overflow-y: auto;"></p><button id="deleteTaskBtn" class="modal-btn danger">Delete Task</button></div></div>
   <div id="userGuideModal" class="modal">
@@ -210,71 +225,373 @@
         </ul>
     </div>
   </div>
-  <div id="shareModal" class="modal"><div class="modal-content"><span class="close-button" id="closeShareModal">×</span><h2>Share Flowchart</h2><iframe src="https://view.genially.com/6845a98ee4504c754b83f421" allowfullscreen="true" scrolling="no" frameborder="0"></iframe></div></div>
+  <div id="shareModal" class="modal"><div class="modal-content"><span class="close-button" id="closeShareModal">×</span><h2>Share Flowchart</h2><iframe src="https://view.genially.com/6851f73b42060080e8ea8922" allowfullscreen="true" scrolling="no" frameborder="0"></iframe></div></div>
   <div id="projectDescModal" class="modal"><div class="modal-content"><span class="close-button" id="closeProjectDescModal">×</span><h2>Project Description</h2><p id="projectSummary"></p><p id="projectGeneratedDate"></p></div></div>
   <div id="deleteLinkModal" class="modal"><div class="modal-content"><span class="close-button" id="cancelDeleteLinkBtn">×</span><h2>Delete Connector</h2><p>Are you sure you want to delete this connection?</p><div class="action-buttons"><button id="confirmDeleteLinkBtn" class="modal-btn danger">Delete</button></div></div></div>
   <div id="colorLegendModal" class="modal"><div class="modal-content"><span class="close-button" id="closeColorLegendModal">×</span><h2>Edit Color Legend</h2><form id="colorLegendForm"><p>Define what each color represents. These will be shown in a legend below the header.</p><div id="color-legend-entries"></div><div class="action-buttons"><button type="submit" class="modal-btn">Save Legend</button></div></form></div></div>
-  
-  <div id="saveDisabledModal" class="modal">
-    <div class="modal-content">
-        <span class="close-button" id="closeSaveDisabledModal">×</span>
-        <h2>Saving Disabled</h2>
-        <p>As a Demo, this version cannot be saved.</p>
-        <p>To purchase this template and unlock all features, please visit our <a href="https://www.socialeap.net/shop-flowchart" target="_blank">Product Page</a>.</p>
-    </div>
-  </div>
-
   <div id="tooltip"></div>
 
   <script>
-    let selectedNode = null, selectedLink = null, simulation, svg, nodeGroup, linkGroup, mainZoomGroup,
-      isInitialLayout = true;
-    
-    let data = {
-        "flowchartName": "Project Phoenix: Product Launch",
-        "projectDescription": {
-            "summary": "This template outlines a comprehensive project for launching a new product, segmenting it into key phases and detailing the essential tasks within each phase. It's designed to help teams visualize the entire product lifecycle from conceptualization to post-launch review, ensuring critical dependencies are identified and responsibilities are clear. The template uses different colors to distinguish between high-level phases, detailed tasks, and milestones.",
-            "generatedDate": "2025-06-16 09:09:41 PM EDT"
+    // Pre-loaded demo data - embedded directly in the script
+    const DEMO_DATA = {
+      "flowchartName": "Project Phoenix: Product Launch",
+      "projectDescription": {
+        "summary": "This template outlines a comprehensive project for launching a new product, segmenting it into key phases and detailing the essential tasks within each phase. It's designed to help teams visualize the entire product lifecycle from conceptualization to post-launch review, ensuring critical dependencies are identified and responsibilities are clear. The template uses different colors to distinguish between high-level phases, detailed tasks, and milestones.",
+        "generatedDate": "2025-06-16 09:09:41 PM EDT"
+      },
+      "nodes": [
+        {
+          "id": "phase-1-initiation",
+          "name": "Phase 1: Project Initiation",
+          "status": "Completed",
+          "responsible": "Project Lead",
+          "deadline": "2025-01-15",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":true,\"task\":\"Define project scope and objectives\"},{\"completed\":true,\"task\":\"Assemble core project team\"}]",
+          "color": "#3498db",
+          "x": 879.5043144226074,
+          "y": 219.67623901367188,
+          "fx": 879.5043144226074,
+          "fy": 219.67623901367188
         },
-        "nodes": [
-            { "id": "phase-1-initiation", "name": "Phase 1: Project Initiation", "status": "Completed", "responsible": "Project Lead", "deadline": "2025-01-15", "priority": "High", "actionDescription": "[{\"completed\":true,\"task\":\"Define project scope and objectives\"},{\"completed\":true,\"task\":\"Assemble core project team\"}]", "color": "#3498db", "x": 879.5, "y": 219.6, "fx": 879.5, "fy": 219.6 },
-            { "id": "task-1-1-kickoff", "name": "Task: Conduct Project Kick-off Meeting", "status": "Completed", "responsible": "Project Lead", "deadline": "2025-01-10", "priority": "High", "actionDescription": "[{\"completed\":true,\"task\":\"Set initial agenda\"},{\"completed\":true,\"task\":\"Invite stakeholders\"},{\"completed\":true,\"task\":\"Distribute project brief\"}]", "color": "#2ecc71", "x": 694.8, "y": 572.0, "fx": 694.8, "fy": 572.0 },
-            { "id": "task-1-2-req", "name": "Task: Gather Initial Requirements", "status": "Completed", "responsible": "Product Team", "deadline": "2025-01-15", "priority": "High", "actionDescription": "[{\"completed\":true,\"task\":\"Interview key users\"},{\"completed\":true,\"task\":\"Document functional requirements\"}]", "color": "#2ecc71", "x": 906.9, "y": 574.9, "fx": 906.9, "fy": 574.9 },
-            { "id": "milestone-1-scope", "name": "Milestone: Scope Approved Milestone", "status": "Completed", "responsible": "Steering Committee", "deadline": "2025-01-20", "priority": "High", "actionDescription": "[{\"completed\":true,\"task\":\"Formal scope sign-off\"}]", "color": "#9b59b6", "x": 909.2, "y": 1032.7, "fx": 909.2, "fy": 1032.7 },
-            { "id": "phase-2-planning", "name": "Phase 2: Planning & Design", "status": "In Progress", "responsible": "Project Team", "deadline": "2025-03-01", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Develop detailed project plan\"},{\"completed\":false,\"task\":\"Create UX/UI designs\"}]", "color": "#3498db", "x": 1206.5, "y": 222.1, "fx": 1206.5, "fy": 222.1 },
-            { "id": "task-2-1-plan", "name": "Task: Develop Detailed Project Plan", "status": "In Progress", "responsible": "Project Lead", "deadline": "2025-02-10", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Breakdown tasks into sprints\"},{\"completed\":false,\"task\":\"Allocate resources\"},{\"completed\":false,\"task\":\"Define timelines\"}]", "color": "#f1c40f", "x": 1175.6, "y": 580.3, "fx": 1175.6, "fy": 580.3 },
-            { "id": "task-2-2-design", "name": "Task: Create UX/UI Designs", "status": "In Progress", "responsible": "Design Team", "deadline": "2025-02-28", "priority": "Normal", "actionDescription": "[{\"completed\":false,\"task\":\"Wireframe user flows\"},{\"completed\":false,\"task\":\"Design mockups\"},{\"completed\":false,\"task\":\"Conduct usability testing\"}]", "color": "#f1c40f", "x": 1368.5, "y": 583.7, "fx": 1368.5, "fy": 583.7 },
-            { "id": "milestone-2-design", "name": "Milestone: Design Approved Milestone", "status": "Not Started", "responsible": "Product Owner", "deadline": "2025-03-05", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Review and approve final designs\"}]", "color": "#9b59b6", "x": 1349.9, "y": 1027.2, "fx": 1349.9, "fy": 1027.2 },
-            { "id": "phase-3-dev", "name": "Phase 3: Development & QA", "status": "Not Started", "responsible": "Engineering Lead", "deadline": "2025-05-15", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Develop core features\"},{\"completed\":false,\"task\":\"Perform rigorous testing\"}]", "color": "#3498db", "x": 1687.9, "y": 222.1, "fx": 1687.9, "fy": 222.1 },
-            { "id": "task-3-1-backend", "name": "Task: Backend Development", "status": "Not Started", "responsible": "Backend Team", "deadline": "2025-04-30", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Set up APIs\"},{\"completed\":false,\"task\":\"Database integration\"},{\"completed\":false,\"task\":\"Server-side logic\"}]", "color": "#e74c3c", "x": 1627.4, "y": 582.8, "fx": 1627.4, "fy": 582.8 },
-            { "id": "task-3-2-frontend", "name": "Task: Frontend Development", "status": "Not Started", "responsible": "Frontend Team", "deadline": "2025-05-10", "priority": "Normal", "actionDescription": "[{\"completed\":false,\"task\":\"Build user interface\"},{\"completed\":false,\"task\":\"Integrate with backend APIs\"}]", "color": "#e74c3c", "x": 1848.0, "y": 578.5, "fx": 1848.0, "fy": 578.5 },
-            { "id": "task-3-3-qa", "name": "Task: Quality Assurance Testing", "status": "Not Started", "responsible": "QA Team", "deadline": "2025-05-15", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Develop test cases\"},{\"completed\":false,\"task\":\"Execute unit tests\"},{\"completed\":false,\"task\":\"Perform integration tests\"},{\"completed\":false,\"task\":\"Conduct UAT with stakeholders\"}]", "color": "#e74c3c", "x": 1742.5, "y": 793.7, "fx": 1742.5, "fy": 793.7 },
-            { "id": "milestone-3-devcomplete", "name": "Milestone: Development Complete Milestone", "status": "Not Started", "responsible": "Engineering Lead", "deadline": "2025-05-20", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"All features developed and tested\"}]", "color": "#9b59b6", "x": 1901.0, "y": 1024.5, "fx": 1901.0, "fy": 1024.5 },
-            { "id": "phase-4-launch", "name": "Phase 4: Launch & Post-Launch", "status": "Not Started", "responsible": "Marketing Lead", "deadline": "2025-06-30", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Execute marketing campaign\"},{\"completed\":false,\"task\":\"Monitor post-launch performance\"}]", "color": "#3498db", "x": 2125.8, "y": 217.6, "fx": 2125.8, "fy": 217.6 },
-            { "id": "task-4-1-marketing", "name": "Task: Prepare & Execute Marketing Campaign", "status": "Not Started", "responsible": "Marketing Team", "deadline": "2025-06-01", "priority": "Normal", "actionDescription": "[{\"completed\":false,\"task\":\"Create launch content\"},{\"completed\":false,\"task\":\"Plan social media campaign\"},{\"completed\":false,\"task\":\"Set up advertising channels\"}]", "color": "#e74c3c", "x": 2145.2, "y": 583.5, "fx": 2145.2, "fy": 583.5 },
-            { "id": "task-4-2-deployment", "name": "Task: Final Deployment", "status": "Not Started", "responsible": "DevOps", "deadline": "2025-06-10", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Prepare production environment\"},{\"completed\":false,\"task\":\"Execute deployment script\"}]", "color": "#e74c3c", "x": 2401.6, "y": 583.2, "fx": 2401.6, "fy": 583.2 },
-            { "id": "milestone-4-launchday", "name": "Milestone: Product Launch Day!", "status": "Not Started", "responsible": "All Teams", "deadline": "2025-06-15", "priority": "High", "actionDescription": "[{\"completed\":false,\"task\":\"Execute launch plan\"},{\"completed\":false,\"task\":\"Monitor systems closely\"}]", "color": "#9b59b6", "x": 2200.4, "y": 1025.9, "fx": 2200.4, "fy": 1025.9 },
-            { "id": "task-4-3-review", "name": "Task: Post-Launch Review & Iteration", "status": "Not Started", "responsible": "Project Lead", "deadline": "2025-06-30", "priority": "Normal", "actionDescription": "[{\"completed\":false,\"task\":\"Gather user feedback\"},{\"completed\":false,\"task\":\"Analyze performance metrics\"},{\"completed\":false,\"task\":\"Plan next iterations\"}]", "color": "#e74c3c", "x": 2452.9, "y": 1181.0, "fx": 2452.9, "fy": 1181.0 }
-        ],
-        "links": [
-            { "source": "phase-1-initiation", "target": "task-1-1-kickoff" }, { "source": "phase-1-initiation", "target": "task-1-2-req" },
-            { "source": "task-1-1-kickoff", "target": "milestone-1-scope" }, { "source": "task-1-2-req", "target": "milestone-1-scope" },
-            { "source": "milestone-1-scope", "target": "phase-2-planning" }, { "source": "phase-2-planning", "target": "task-2-1-plan" },
-            { "source": "phase-2-planning", "target": "task-2-2-design" }, { "source": "task-2-1-plan", "target": "milestone-2-design" },
-            { "source": "task-2-2-design", "target": "milestone-2-design" }, { "source": "milestone-2-design", "target": "phase-3-dev" },
-            { "source": "phase-3-dev", "target": "task-3-1-backend" }, { "source": "phase-3-dev", "target": "task-3-2-frontend" },
-            { "source": "task-3-1-backend", "target": "task-3-3-qa" }, { "source": "task-3-2-frontend", "target": "task-3-3-qa" },
-            { "source": "task-3-3-qa", "target": "milestone-3-devcomplete" }, { "source": "milestone-3-devcomplete", "target": "phase-4-launch" },
-            { "source": "phase-4-launch", "target": "task-4-1-marketing" }, { "source": "phase-4-launch", "target": "task-4-2-deployment" },
-            { "source": "task-4-1-marketing", "target": "milestone-4-launchday" }, { "source": "task-4-2-deployment", "target": "milestone-4-launchday" },
-            { "source": "milestone-4-launchday", "target": "task-4-3-review" }
-        ],
-        "colorLegend": {
-            "#3498db": "Phase Nodes (High-Level Stages)", "#2ecc71": "Completed Tasks", "#f1c40f": "In-Progress Tasks",
-            "#e74c3c": "Not Started / Critical Tasks", "#9b59b6": "Key Milestones"
+        {
+          "id": "task-1-1-kickoff",
+          "name": "Task: Conduct Project Kick-off Meeting",
+          "status": "Completed",
+          "responsible": "Project Lead",
+          "deadline": "2025-01-10",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":true,\"task\":\"Set initial agenda\"},{\"completed\":true,\"task\":\"Invite stakeholders\"},{\"completed\":true,\"task\":\"Distribute project brief\"}]",
+          "color": "#2ecc71",
+          "x": 694.8091735839844,
+          "y": 572.0126037597656,
+          "fx": 694.8091735839844,
+          "fy": 572.0126037597656
+        },
+        {
+          "id": "task-1-2-req",
+          "name": "Task: Gather Initial Requirements",
+          "status": "Completed",
+          "responsible": "Product Team",
+          "deadline": "2025-01-15",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":true,\"task\":\"Interview key users\"},{\"completed\":true,\"task\":\"Document functional requirements\"}]",
+          "color": "#2ecc71",
+          "x": 906.9922332763672,
+          "y": 574.95534324646,
+          "fx": 906.9922332763672,
+          "fy": 574.95534324646
+        },
+        {
+          "id": "milestone-1-scope",
+          "name": "Milestone: Scope Approved Milestone",
+          "status": "Completed",
+          "responsible": "Steering Committee",
+          "deadline": "2025-01-20",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":true,\"task\":\"Formal scope sign-off\"}]",
+          "color": "#9b59b6",
+          "x": 909.2677001953125,
+          "y": 1032.7422943115234,
+          "fx": 909.2677001953125,
+          "fy": 1032.7422943115234
+        },
+        {
+          "id": "phase-2-planning",
+          "name": "Phase 2: Planning & Design",
+          "status": "In Progress",
+          "responsible": "Project Team",
+          "deadline": "2025-03-01",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Develop detailed project plan\"},{\"completed\":false,\"task\":\"Create UX/UI designs\"}]",
+          "color": "#3498db",
+          "x": 1206.5489807128906,
+          "y": 222.17977905273438,
+          "fx": 1206.5489807128906,
+          "fy": 222.17977905273438
+        },
+        {
+          "id": "task-2-1-plan",
+          "name": "Task: Develop Detailed Project Plan",
+          "status": "In Progress",
+          "responsible": "Project Lead",
+          "deadline": "2025-02-10",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Breakdown tasks into sprints\"},{\"completed\":false,\"task\":\"Allocate resources\"},{\"completed\":false,\"task\":\"Define timelines\"}]",
+          "color": "#f1c40f",
+          "x": 1175.6349182128906,
+          "y": 580.3052139282227,
+          "fx": 1175.6349182128906,
+          "fy": 580.3052139282227
+        },
+        {
+          "id": "task-2-2-design",
+          "name": "Task: Create UX/UI Designs",
+          "status": "In Progress",
+          "responsible": "Design Team",
+          "deadline": "2025-02-28",
+          "priority": "Normal",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Wireframe user flows\"},{\"completed\":false,\"task\":\"Design mockups\"},{\"completed\":false,\"task\":\"Conduct usability testing\"}]",
+          "color": "#f1c40f",
+          "x": 1368.5739440917969,
+          "y": 583.7210378050804,
+          "fx": 1368.5739440917969,
+          "fy": 583.7210378050804
+        },
+        {
+          "id": "milestone-2-design",
+          "name": "Milestone: Design Approved Milestone",
+          "status": "Not Started",
+          "responsible": "Product Owner",
+          "deadline": "2025-03-05",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Review and approve final designs\"}]",
+          "color": "#9b59b6",
+          "x": 1349.9161071777344,
+          "y": 1027.2073516845703,
+          "fx": 1349.9161071777344,
+          "fy": 1027.2073516845703
+        },
+        {
+          "id": "phase-3-dev",
+          "name": "Phase 3: Development & QA",
+          "status": "Not Started",
+          "responsible": "Engineering Lead",
+          "deadline": "2025-05-15",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Develop core features\"},{\"completed\":false,\"task\":\"Perform rigorous testing\"}]",
+          "color": "#3498db",
+          "x": 1687.9382629394531,
+          "y": 222.17977905273438,
+          "fx": 1687.9382629394531,
+          "fy": 222.17977905273438
+        },
+        {
+          "id": "task-3-1-backend",
+          "name": "Task: Backend Development",
+          "status": "Not Started",
+          "responsible": "Backend Team",
+          "deadline": "2025-04-30",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Set up APIs\"},{\"completed\":false,\"task\":\"Database integration\"},{\"completed\":false,\"task\":\"Server-side logic\"}]",
+          "color": "#e74c3c",
+          "x": 1627.4908142089844,
+          "y": 582.8297729492188,
+          "fx": 1627.4908142089844,
+          "fy": 582.8297729492188
+        },
+        {
+          "id": "task-3-2-frontend",
+          "name": "Task: Frontend Development",
+          "status": "Not Started",
+          "responsible": "Frontend Team",
+          "deadline": "2025-05-10",
+          "priority": "Normal",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Build user interface\"},{\"completed\":false,\"task\":\"Integrate with backend APIs\"}]",
+          "color": "#e74c3c",
+          "x": 1848.0062561035156,
+          "y": 578.5071258544922,
+          "fx": 1848.0062561035156,
+          "fy": 578.5071258544922
+        },
+        {
+          "id": "task-3-3-qa",
+          "name": "Task: Quality Assurance Testing",
+          "status": "Not Started",
+          "responsible": "QA Team",
+          "deadline": "2025-05-15",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Develop test cases\"},{\"completed\":false,\"task\":\"Execute unit tests\"},{\"completed\":false,\"task\":\"Perform integration tests\"},{\"completed\":false,\"task\":\"Conduct UAT with stakeholders\"}]",
+          "color": "#e74c3c",
+          "x": 1742.5062561035156,
+          "y": 793.7596893310547,
+          "fx": 1742.5062561035156,
+          "fy": 793.7596893310547
+        },
+        {
+          "id": "milestone-3-devcomplete",
+          "name": "Milestone: Development Complete Milestone",
+          "status": "Not Started",
+          "responsible": "Engineering Lead",
+          "deadline": "2025-05-20",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":false,\"task\":\"All features developed and tested\"}]",
+          "color": "#9b59b6",
+          "x": 1901.0710754394531,
+          "y": 1024.5800018310547,
+          "fx": 1901.0710754394531,
+          "fy": 1024.5800018310547
+        },
+        {
+          "id": "phase-4-launch",
+          "name": "Phase 4: Launch & Post-Launch",
+          "status": "Not Started",
+          "responsible": "Marketing Lead",
+          "deadline": "2025-06-30",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Execute marketing campaign\"},{\"completed\":false,\"task\":\"Monitor post-launch performance\"}]",
+          "color": "#3498db",
+          "x": 2125.8226013183594,
+          "y": 217.6391143798828,
+          "fx": 2125.8226013183594,
+          "fy": 217.6391143798828
+        },
+        {
+          "id": "task-4-1-marketing",
+          "name": "Task: Prepare & Execute Marketing Campaign",
+          "status": "Not Started",
+          "responsible": "Marketing Team",
+          "deadline": "2025-06-01",
+          "priority": "Normal",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Create launch content\"},{\"completed\":false,\"task\":\"Plan social media campaign\"},{\"completed\":false,\"task\":\"Set up advertising channels\"}]",
+          "color": "#e74c3c",
+          "x": 2145.274871826172,
+          "y": 583.5883026123047,
+          "fx": 2145.274871826172,
+          "fy": 583.5883026123047
+        },
+        {
+          "id": "task-4-2-deployment",
+          "name": "Task: Final Deployment",
+          "status": "Not Started",
+          "responsible": "DevOps",
+          "deadline": "2025-06-10",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Prepare production environment\"},{\"completed\":false,\"task\":\"Execute deployment script\"}]",
+          "color": "#e74c3c",
+          "x": 2401.606414794922,
+          "y": 583.2978973388672,
+          "fx": 2401.606414794922,
+          "fy": 583.2978973388672
+        },
+        {
+          "id": "milestone-4-launchday",
+          "name": "Milestone: Product Launch Day!",
+          "status": "Not Started",
+          "responsible": "All Teams",
+          "deadline": "2025-06-15",
+          "priority": "High",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Execute launch plan\"},{\"completed\":false,\"task\":\"Monitor systems closely\"}]",
+          "color": "#9b59b6",
+          "x": 2200.481903076172,
+          "y": 1025.9265594482422,
+          "fx": 2200.481903076172,
+          "fy": 1025.9265594482422
+        },
+        {
+          "id": "task-4-3-review",
+          "name": "Task: Post-Launch Review & Iteration",
+          "status": "Not Started",
+          "responsible": "Project Lead",
+          "deadline": "2025-06-30",
+          "priority": "Normal",
+          "actionDescription": "[{\"completed\":false,\"task\":\"Gather user feedback\"},{\"completed\":false,\"task\":\"Analyze performance metrics\"},{\"completed\":false,\"task\":\"Plan next iterations\"}]",
+          "color": "#e74c3c",
+          "x": 2452.9772033691406,
+          "y": 1181.0501556396484,
+          "fx": 2452.9772033691406,
+          "fy": 1181.0501556396484
         }
+      ],
+      "links": [
+        {
+          "source": "phase-1-initiation",
+          "target": "task-1-1-kickoff"
+        },
+        {
+          "source": "phase-1-initiation",
+          "target": "task-1-2-req"
+        },
+        {
+          "source": "task-1-1-kickoff",
+          "target": "milestone-1-scope"
+        },
+        {
+          "source": "task-1-2-req",
+          "target": "milestone-1-scope"
+        },
+        {
+          "source": "milestone-1-scope",
+          "target": "phase-2-planning"
+        },
+        {
+          "source": "phase-2-planning",
+          "target": "task-2-1-plan"
+        },
+        {
+          "source": "phase-2-planning",
+          "target": "task-2-2-design"
+        },
+        {
+          "source": "task-2-1-plan",
+          "target": "milestone-2-design"
+        },
+        {
+          "source": "task-2-2-design",
+          "target": "milestone-2-design"
+        },
+        {
+          "source": "milestone-2-design",
+          "target": "phase-3-dev"
+        },
+        {
+          "source": "phase-3-dev",
+          "target": "task-3-1-backend"
+        },
+        {
+          "source": "phase-3-dev",
+          "target": "task-3-2-frontend"
+        },
+        {
+          "source": "task-3-1-backend",
+          "target": "task-3-3-qa"
+        },
+        {
+          "source": "task-3-2-frontend",
+          "target": "task-3-3-qa"
+        },
+        {
+          "source": "task-3-3-qa",
+          "target": "milestone-3-devcomplete"
+        },
+        {
+          "source": "milestone-3-devcomplete",
+          "target": "phase-4-launch"
+        },
+        {
+          "source": "phase-4-launch",
+          "target": "task-4-1-marketing"
+        },
+        {
+          "source": "phase-4-launch",
+          "target": "task-4-2-deployment"
+        },
+        {
+          "source": "task-4-1-marketing",
+          "target": "milestone-4-launchday"
+        },
+        {
+          "source": "task-4-2-deployment",
+          "target": "milestone-4-launchday"
+        },
+        {
+          "source": "milestone-4-launchday",
+          "target": "task-4-3-review"
+        }
+      ],
+      "colorLegend": {
+        "#3498db": "Phase Nodes (High-Level Stages)",
+        "#2ecc71": "Completed Tasks",
+        "#f1c40f": "In-Progress Tasks",
+        "#e74c3c": "Not Started / Critical Tasks",
+        "#9b59b6": "Key Milestones"
+      }
     };
 
+    let selectedNode = null, selectedLink = null,
+      data = JSON.parse(JSON.stringify(DEMO_DATA)), // Deep copy of demo data
+      simulation, svg, nodeGroup, linkGroup, mainZoomGroup,
+      isInitialLayout = true; // Flag to track the first layout
     const BASE_NODE_DIMENSION = 160;
     let currentNodeSizeFactor = 1.0;
     const MIN_NODE_SIZE_FACTOR = 0.5, MAX_NODE_SIZE_FACTOR = 1.5, NODE_SIZE_STEP = 0.1;
@@ -299,66 +616,55 @@
         mainZoomGroup = svg.append('g').attr('class', 'zoom-group');
         linkGroup = mainZoomGroup.append('g').attr('class', 'links');
         nodeGroup = mainZoomGroup.append('g').attr('class', 'nodes');
-        
-        // FIX: The ticked function's only job is to update the visual positions of nodes and links.
-        function ticked() {
-            const currentScaledDimension = BASE_NODE_DIMENSION * currentNodeSizeFactor;
-            
-            nodeGroup.selectAll('g.node-group')
-                .attr('transform', d => `translate(${d.x},${d.y})`);
-            
-            linkGroup.selectAll('line.link').each(function(d) {
-                if (d.source && d.target) {
-                    const sourcePoint = getIntersectionPoint(d.source, d.target, currentScaledDimension, currentScaledDimension);
-                    const targetPoint = getIntersectionPoint(d.target, d.source, currentScaledDimension, currentScaledDimension);
-                    d3.select(this).attr('x1', sourcePoint.x).attr('y1', sourcePoint.y).attr('x2', targetPoint.x).attr('y2', targetPoint.y);
-                }
-            });
-        }
-        
+        const zoom = d3.zoom().filter(event => !event.target.closest('.node-group')).on('zoom', (event) => { mainZoomGroup.attr('transform', event.transform); });
+        svg.call(zoom).on("dblclick.zoom", null);
         simulation = d3.forceSimulation()
             .force('charge', d3.forceManyBody().strength(-1800 * (BASE_NODE_DIMENSION / 160)))
             .force('collide', d3.forceCollide().radius((BASE_NODE_DIMENSION * 0.55) + 25).strength(0.9))
-            .force('center', d3.forceCenter(vW / 2, vH / 2))
-            .on("tick", ticked); // FIX: Connect simulation data changes to the visual ticked function.
-            
-        const zoom = d3.zoom()
-            .filter(event => !event.target.closest('.node-group'))
-            .on('zoom', (event) => {
-                mainZoomGroup.attr('transform', event.transform);
-            });
-        svg.call(zoom).on("dblclick.zoom", null);
+            .force('center', d3.forceCenter(vW / 2, vH / 2));
     }
     
-    // FIX: These drag handlers follow the standard D3 pattern.
-    function dragstarted(event, d) {
-        if (!event.active) simulation.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
-        d3.select(this).classed('dragging', true);
+    function ticked() {
+        const currentScaledDimension = BASE_NODE_DIMENSION * currentNodeSizeFactor;
+        nodeGroup.selectAll('g.node-group')
+            .attr('transform', d => `translate(${d.x},${d.y})`);
+        
+        linkGroup.selectAll('line.link').each(function(d) {
+            if (d.source && d.target) {
+                const sourcePoint = getIntersectionPoint(d.source, d.target, currentScaledDimension, currentScaledDimension);
+                const targetPoint = getIntersectionPoint(d.target, d.source, currentScaledDimension, currentScaledDimension);
+                d3.select(this).attr('x1', sourcePoint.x).attr('y1', sourcePoint.y).attr('x2', targetPoint.x).attr('y2', targetPoint.y);
+            }
+        });
     }
 
-    function dragged(event, d) {
-        d.fx = event.x;
-        d.fy = event.y;
-    }
-
-    function dragended(event, d) {
-        if (!event.active) simulation.alphaTarget(0);
-        // We leave fx and fy set so the node stays where the user dropped it.
-        d3.select(this).classed('dragging', false);
-    }
-
+    // START: REVISED D3 DRAG BEHAVIOR
     const drag = d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended);
-    
+        .on('start', function(event, d) {
+            if (connectorMode) return;
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+            d3.select(this).select('.flowchart-node-html').classed('dragging', true);
+        })
+        .on('drag', function(event, d) {
+            if (connectorMode) return;
+            d.fx = event.x;
+            d.fy = event.y;
+        })
+        .on('end', function(event, d) {
+            if (connectorMode) return;
+            if (!event.active) simulation.alphaTarget(0);
+            d3.select(this).select('.flowchart-node-html').classed('dragging', false);
+        });
+    // END: REVISED D3 DRAG BEHAVIOR
+
     function update() {
         if (!svg || !simulation) return;
         updateLegendDisplay();
         
-        simulation.nodes(data.nodes);
+        simulation.nodes(data.nodes).on("tick", ticked);
+
         if(data.links.length > 0) { 
             simulation.force('link', d3.forceLink(data.links).id(d => d.id).distance(250).strength(0.05));
         } else {
@@ -404,12 +710,12 @@
                     if (!linkExists) {
                         data.links.push({ source: connectorStartNode.id, target: d.id });
                         simulation.force('link').links(data.links);
-                        simulation.alpha(0.3).restart();
                     }
                     connectorMode = false;
                     connectorStartNode = null;
                     g('addConnectorBtn').classList.remove('active');
                     g('flowchart').style.cursor = 'default';
+                    simulation.alpha(0.3).restart();
                 }
             } else {
                 nodeClick(event, d);
@@ -443,7 +749,8 @@
             else { pillDiv.style('display', 'none'); }
         });
         
-        simulation.alpha(0.3).restart();
+        simulation.alpha(1).restart();
+        simulation.tick();
     }
 
     function getIntersectionPoint(sourceNode, targetNode, width, height) {
@@ -469,24 +776,22 @@
     function updateProjectDescButton() { const hasDesc = data.projectDescription && data.projectDescription.summary.trim().length > 0; g('projectDescBtn').style.display = hasDesc ? 'inline-flex' : 'none'; }
     function nodeClick(ev, d) { ev.stopPropagation(); selectedNode = d; g('taskName').value = d.name || ''; g('responsible').value = d.responsible || ''; g('status').value = d.status || 'Not Started'; g('deadline').value = d.deadline || ''; g('priority').value = d.priority || 'Normal'; populateTaskTable(d.actionDescription || ''); g('nodeColor').value = d.color || ''; document.querySelectorAll('.color-panel .color-swatch').forEach((s) => s.classList.remove('selected-swatch')); if (d.color) { const sS = document.querySelector(`.color-swatch[data-color='${d.color}']`); if (sS) sS.classList.add('selected-swatch'); } g('modal').style.display = 'block'; }
     
-    function loadFromFile(f) { if (!f) { alert('No file.'); return; } const r = new FileReader(); r.onload = (e) => { try { const fD = JSON.parse(e.target.result); if (fD && typeof fD === 'object' && Array.isArray(fD.nodes)) { data = fD; g('flowchartNameInput').value = data.flowchartName || 'Untitled'; updateProjectDescButton(); isInitialLayout = true; update(); } else alert('Invalid format.'); } catch (err) { alert('Parse error.'); console.error('Load file error:', err); } }; r.onerror = () => alert('Read error.'); r.readAsText(f); }
+    // Demo save function - shows popup instead of saving
+    function demoSaveToFile() { 
+        g('demoSaveModal').style.display = 'block'; 
+    }
+    
+    function loadFromFile(f) { 
+        alert('File upload is disabled in demo mode.'); 
+    }
+    
     function loadTemplate(tmpl) { data.flowchartName = tmpl.charAt(0).toUpperCase() + tmpl.slice(1) + ' Template'; g('flowchartNameInput').value = data.flowchartName; data.links = []; data.projectDescription = { summary: '', generatedDate: '' }; data.colorLegend = {}; updateProjectDescButton(); switch (tmpl) { case 'prototype': data.nodes = [{ id: '1', name: 'Design System Setup', status: 'Completed', color: '#2ecc71' }, { id: '2', name: 'User Auth Development', status: 'In Progress', color: '#f1c40f' }, { id: '3', name: 'Real-time Collab Testing', status: 'Not Started', color: '#e74c3c' }]; break; case 'vendor': data.nodes = [{ id: '1', name: 'Identify Vendors', status: 'Completed', color: '#2ecc71' }, { id: '2', name: 'Conduct Outreach', status: 'In Progress', color: '#f1c40f' }, { id: '3', name: 'Select Final Vendor', status: 'Not Started', color: '#e74c3c' }]; break; case 'marketing': data.nodes = [{ id: '1', name: 'Market Research', status: 'Completed', color: '#2ecc71' }, { id: '2', name: 'Develop Strategy', status: 'In Progress', color: '#f1c40f' }, { id: '3', name: 'Launch Campaign', status: 'Not Started', color: '#e74c3c' }]; break; default: data.nodes = [{ id: 'root-1', name: 'Start New Project', status: 'Not Started', color: '#3498db', x: 300, y: 150, fx: 300, fy: 150 }]; data.flowchartName = 'New Flowchart'; g('flowchartNameInput').value = data.flowchartName; } data.nodes.forEach(n => { n.actionDescription = '[]'; n.fx = null; n.fy = null; }); isInitialLayout = true; update(); }
     function linkClickHandler(event, d) { event.stopPropagation(); selectedLink = d; linkGroup.selectAll('line.link').classed('selected', l => l === selectedLink); g('deleteLinkModal').style.display = 'block'; }
     function openColorLegendModal() { const container = g('color-legend-entries'); container.innerHTML = ''; const uniqueColors = [...new Set(data.nodes.map(n => n.color).filter(c => c))]; const opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--node-fill-opacity').trim() || '0.55'); uniqueColors.forEach(color => { const entry = document.createElement('div'); entry.className = 'legend-entry'; const swatch = document.createElement('div'); swatch.className = 'legend-color-swatch'; swatch.style.backgroundColor = hexToRgba(color, opacity); const input = document.createElement('input'); input.type = 'text'; input.placeholder = `Description for ${color}`; input.dataset.color = color; input.value = data.colorLegend[color] || ''; entry.appendChild(swatch); entry.appendChild(input); container.appendChild(entry); }); g('colorLegendModal').style.display = 'block'; }
     function saveColorLegend(event) { event.preventDefault(); document.querySelectorAll('#color-legend-entries input').forEach(input => { const color = input.dataset.color, desc = input.value.trim(); if (desc) data.colorLegend[color] = desc; else delete data.colorLegend[color]; }); g('colorLegendModal').style.display = 'none'; updateLegendDisplay(); }
     function updateLegendDisplay() { const container = g('color-legend-display'); container.innerHTML = ''; const items = Object.entries(data.colorLegend); const opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--node-fill-opacity').trim() || '0.55'); if (items.length > 0) { items.forEach(([color, description]) => { const item = document.createElement('div'); item.className = 'legend-display-item'; const swatch = document.createElement('div'); swatch.className = 'legend-display-color'; swatch.style.backgroundColor = hexToRgba(color, opacity); const text = document.createElement('span'); text.textContent = description; item.appendChild(swatch); item.appendChild(text); container.appendChild(item); }); container.classList.add('visible'); } else { container.classList.remove('visible'); } }
-    function createNode(pN) {
-        const nId = `node-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`; let iX, iY;
-        const vB = svg.attr('viewBox').split(' '), vW = parseFloat(vB[2]), vH = parseFloat(vB[3]), cSD = BASE_NODE_DIMENSION * currentNodeSizeFactor;
-        if (pN && typeof pN.x === 'number') { iX = pN.x + (Math.random() * 100 - 50); iY = pN.y + cSD * 0.9; } else { iX = vW / 2 + (Math.random() * 200 - 100); iY = vH / 3 + (Math.random() * 100 - 50); }
-        iX = Math.max(cSD / 2, Math.min(iX, vW - cSD / 2)); iY = Math.max(cSD / 2, Math.min(iY, vH - cSD / 2));
-        const nN = { id: nId, name: 'New Task Node', status: 'Not Started', responsible: '', deadline: '', priority: 'Normal', actionDescription: '[]', color: null, x: iX, y: iY, fx: null, fy: null }; // New nodes are not fixed
-        data.nodes.push(nN);
-        
-        simulation.nodes(data.nodes);
-        simulation.alpha(0.5).restart();
-    }
-    function updateNodeSizes() { if (!simulation) return; const sD = BASE_NODE_DIMENSION * currentNodeSizeFactor; simulation.force('collide').radius((sD * 0.55) + 25); simulation.force('charge').strength(-1800 * (sD / 160)); simulation.alpha(0.3).restart(); update(); }
+    function createNode(pN) { const nId = `node-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`; let iX, iY; const vB = svg.attr('viewBox').split(' '), vW = parseFloat(vB[2]), vH = parseFloat(vB[3]), cSD = BASE_NODE_DIMENSION * currentNodeSizeFactor; if (pN && typeof pN.x === 'number') { iX = pN.x + (Math.random() * 100 - 50); iY = pN.y + cSD * 0.9; } else { iX = vW / 2 + (Math.random() * 200 - 100); iY = vH / 3 + (Math.random() * 100 - 50); } iX = Math.max(cSD / 2, Math.min(iX, vW - cSD / 2)); iY = Math.max(cSD / 2, Math.min(iY, vH - cSD / 2)); const nN = { id: nId, name: 'New Task Node', status: 'Not Started', responsible: '', deadline: '', priority: 'Normal', actionDescription: '[]', color: null, x: iX, y: iY, fx: iX, fy: iY }; data.nodes.push(nN); isInitialLayout = false; update(); return nN; }
+    function updateNodeSizes() { if (!simulation) return; const sD = BASE_NODE_DIMENSION * currentNodeSizeFactor; simulation.force('collide').radius((sD * 0.55) + 25); simulation.force('charge').strength(-1800 * (sD / 160)); isInitialLayout = false; update(); }
     
     document.addEventListener('DOMContentLoaded', () => {
         const fcCont = g('flowchartContainer');
@@ -502,6 +807,11 @@
 
     function initializeApp() {
         initD3();
+        
+        // Load demo data immediately
+        g('flowchartNameInput').value = data.flowchartName;
+        updateProjectDescButton();
+        
         const tooltip = g('tooltip');
         if (tooltip) { document.querySelectorAll('nav button[data-tooltip-text]').forEach(button => { button.addEventListener('mouseenter', () => { tooltip.textContent = button.dataset.tooltipText; const rect = button.getBoundingClientRect(); tooltip.style.top = `${rect.bottom + 8}px`; tooltip.style.left = `${rect.left + rect.width / 2}px`; tooltip.classList.add('visible'); }); button.addEventListener('mouseleave', () => tooltip.classList.remove('visible')); }); }
         document.querySelectorAll('.color-panel .color-swatch').forEach(swatch => { const color = swatch.dataset.color, opacity = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--node-fill-opacity').trim() || '0.55'); if (color) swatch.style.backgroundColor = hexToRgba(color, opacity); });
@@ -511,8 +821,8 @@
         applyTheme(savedTheme);
         themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark'; applyTheme(newTheme); localStorage.setItem('theme', newTheme); });
         g('aiAssistantBtn').onclick = openAIAssistant;
-        g('nodeSizeIncreaseBtn').onclick = () => { if (currentNodeSizeFactor < MAX_NODE_SIZE_FACTOR) { currentNodeSizeFactor = parseFloat((currentNodeSizeFactor + NODE_SIZE_STEP).toFixed(2)); updateNodeSizes(); } };
-        g('nodeSizeDecreaseBtn').onclick = () => { if (currentNodeSizeFactor > MIN_NODE_SIZE_FACTOR) { currentNodeSizeFactor = parseFloat((currentNodeSizeFactor - NODE_SIZE_STEP).toFixed(2)); updateNodeSizes(); } };
+        g('nodeSizeIncreaseBtn').onclick = () => { if (currentNodeSizeFactor < MAX_NODE_SIZE_FACTOR) { currentNodeSizeFactor = parseFloat((currentNodeSizeFactor + NODE_SIZE_STEP).toFixed(2)); isInitialLayout = false; updateNodeSizes(); } };
+        g('nodeSizeDecreaseBtn').onclick = () => { if (currentNodeSizeFactor > MIN_NODE_SIZE_FACTOR) { currentNodeSizeFactor = parseFloat((currentNodeSizeFactor - NODE_SIZE_STEP).toFixed(2)); isInitialLayout = false; updateNodeSizes(); } };
         g('colorLegendBtn').onclick = openColorLegendModal;
         g('closeColorLegendModal').onclick = () => g('colorLegendModal').style.display = 'none';
         g('colorLegendForm').onsubmit = saveColorLegend;
@@ -524,15 +834,17 @@
             connectorStartNode = null; 
             addConnBtn.classList.toggle('active', connectorMode); 
             g('flowchart').style.cursor = connectorMode ? 'crosshair' : 'default'; 
+            // If connector mode is turned off, remove any lingering visual feedback
             if (!connectorMode) {
                 nodeGroup.selectAll('.flowchart-node-html').style('outline', 'none');
             }
         });
-        g('addNodeBtn').onclick = (e) => { e.preventDefault(); createNode(selectedNode); g('modal').style.display = 'none'; };
+        g('addNodeBtn').onclick = (e) => { e.preventDefault(); const nN = createNode(selectedNode); if (nN) { selectedNode = nN; nodeClick({ stopPropagation: () => {}, defaultPrevented: false }, nN); } };
         
-        g('saveBtn').onclick = () => { g('saveDisabledModal').style.display = 'block'; };
-        g('closeSaveDisabledModal').onclick = () => { g('saveDisabledModal').style.display = 'none'; };
-
+        // Demo save button - shows popup instead of saving
+        g('saveBtn').onclick = demoSaveToFile;
+        g('closeDemoSaveModal').onclick = () => g('demoSaveModal').style.display = 'none';
+        
         g('uploadBtn').onclick = () => g('fileInput').click();
         g('fileInput').onchange = (e) => { if (e.target.files.length > 0) loadFromFile(e.target.files[0]); };
         g('userGuideBtn').onclick = () => { g('userGuideModal').style.display = 'block'; };
@@ -540,21 +852,22 @@
         g('shareBtn').onclick = () => g('shareModal').style.display = 'block';
         g('closeShareModal').onclick = () => g('shareModal').style.display = 'none';
         g('projectDescBtn').onclick = () => { const pd = data.projectDescription || {}; g('projectSummary').textContent = (pd.summary && pd.generatedDate) ? pd.summary : 'File does not contain a Project Description.'; g('projectGeneratedDate').textContent = (pd.summary && pd.generatedDate) ? `Generated: ${pd.generatedDate}` : ''; g('projectDescModal').style.display = 'block'; };
-        document.querySelectorAll('.modal .close-button').forEach((b) => { if (!['closeUserGuideModal','closeProjectDescModal','closeShareModal','closeColorLegendModal', 'closeSaveDisabledModal'].includes(b.id)) b.onclick = (e) => { e.stopPropagation(); b.closest('.modal').style.display = 'none'; }; });
+        document.querySelectorAll('.modal .close-button').forEach((b) => { if (!['closeUserGuideModal','closeProjectDescModal','closeShareModal','closeColorLegendModal','closeDemoSaveModal'].includes(b.id)) b.onclick = (e) => { e.stopPropagation(); b.closest('.modal').style.display = 'none'; }; });
         g('closeProjectDescModal').onclick = (e) => { e.stopPropagation(); g('projectDescModal').style.display = 'none'; };
         window.onclick = (e) => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; };
-        g('taskForm').onsubmit = (e) => { e.preventDefault(); if (selectedNode) { let tsks = []; g('taskTable').querySelectorAll('tbody tr').forEach((r) => { let chk = r.querySelector('input[type="checkbox"]'), txt = r.querySelector('textarea.task-detail-textarea'); if (txt && txt.value.trim() !== '') tsks.push({ completed: chk.checked, task: txt.value.trim() }); }); Object.assign(selectedNode, { name: g('taskName').value, responsible: g('responsible').value, status: g('status').value, deadline: g('deadline').value, priority: g('priority').value, actionDescription: JSON.stringify(tsks), color: g('nodeColor').value || null, }); selectedNode.fx = selectedNode.x; selectedNode.fy = selectedNode.y; update(); } g('modal').style.display = 'none'; };
+        g('taskForm').onsubmit = (e) => { e.preventDefault(); if (selectedNode) { let tsks = []; g('taskTable').querySelectorAll('tbody tr').forEach((r) => { let chk = r.querySelector('input[type="checkbox"]'), txt = r.querySelector('textarea.task-detail-textarea'); if (txt && txt.value.trim() !== '') tsks.push({ completed: chk.checked, task: txt.value.trim() }); }); Object.assign(selectedNode, { name: g('taskName').value, responsible: g('responsible').value, status: g('status').value, deadline: g('deadline').value, priority: g('priority').value, actionDescription: JSON.stringify(tsks), color: g('nodeColor').value || null, }); selectedNode.fx = selectedNode.x; selectedNode.fy = selectedNode.y; isInitialLayout = false; update(); } g('modal').style.display = 'none'; };
         const closeDeleteLinkModal = () => { g('deleteLinkModal').style.display = 'none'; linkGroup.selectAll('line.link').classed('selected', false); selectedLink = null; }
-        g('confirmDeleteLinkBtn').onclick = () => { if (selectedLink) { data.links = data.links.filter(l => l !== selectedLink); update(); } closeDeleteLinkModal(); };
+        g('confirmDeleteLinkBtn').onclick = () => { if (selectedLink) { data.links = data.links.filter(l => l !== selectedLink); isInitialLayout = false; update(); } closeDeleteLinkModal(); };
         g('cancelDeleteLinkBtn').onclick = closeDeleteLinkModal;
         g('addTaskRowBtn').addEventListener('click', () => addTaskRow({}));
         g('deleteTaskBtn').addEventListener('click', () => { let sR = g('taskTable').querySelector('tbody tr.selectedTaskRow'); if (sR) sR.remove(); g('taskTextPopup').style.display = 'none'; });
-        g('deleteNodeBtn').addEventListener('click', () => { if (selectedNode && confirm('Delete node?')) { const selectedId = selectedNode.id; data.nodes = data.nodes.filter((n) => n.id !== selectedId); data.links = data.links.filter(l => (l.source.id || l.source) !== selectedId && (l.target.id || l.target) !== selectedId); selectedNode = null; update(); } g('modal').style.display = 'none'; });
+        g('deleteNodeBtn').addEventListener('click', () => { if (selectedNode && confirm('Delete node?')) { const selectedId = selectedNode.id; data.nodes = data.nodes.filter((n) => n.id !== selectedId); data.links = data.links.filter(l => (l.source.id || l.source) !== selectedId && (l.target.id || l.target) !== selectedId); selectedNode = null; isInitialLayout = false; update(); } g('modal').style.display = 'none'; });
+        g('flowchartNameInput').addEventListener('input', function () { data.flowchartName = this.value || 'Untitled'; });
         
-        isInitialLayout = true; 
-        update(); 
-        g('flowchartNameInput').value = data.flowchartName;
+        // Initialize with demo data
+        isInitialLayout = true;
+        update();
     }
   </script>
 </body>
-</html>
+</html
