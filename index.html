@@ -299,51 +299,63 @@
         mainZoomGroup = svg.append('g').attr('class', 'zoom-group');
         linkGroup = mainZoomGroup.append('g').attr('class', 'links');
         nodeGroup = mainZoomGroup.append('g').attr('class', 'nodes');
-        const zoom = d3.zoom().filter(event => !event.target.closest('.node-group')).on('zoom', (event) => { mainZoomGroup.attr('transform', event.transform); });
-        svg.call(zoom).on("dblclick.zoom", null);
+        
+        // FIX: Re-introduce the ticked function
+        function ticked() {
+            const currentScaledDimension = BASE_NODE_DIMENSION * currentNodeSizeFactor;
+            nodeGroup.selectAll('g.node-group')
+                .attr('transform', d => `translate(${d.x},${d.y})`);
+            
+            linkGroup.selectAll('line.link').each(function(d) {
+                if (d.source && d.target) {
+                    const sourcePoint = getIntersectionPoint(d.source, d.target, currentScaledDimension, currentScaledDimension);
+                    const targetPoint = getIntersectionPoint(d.target, d.source, currentScaledDimension, currentScaledDimension);
+                    d3.select(this).attr('x1', sourcePoint.x).attr('y1', sourcePoint.y).attr('x2', targetPoint.x).attr('y2', targetPoint.y);
+                }
+            });
+        }
+        
         simulation = d3.forceSimulation()
             .force('charge', d3.forceManyBody().strength(-1800 * (BASE_NODE_DIMENSION / 160)))
             .force('collide', d3.forceCollide().radius((BASE_NODE_DIMENSION * 0.55) + 25).strength(0.9))
-            .force('center', d3.forceCenter(vW / 2, vH / 2));
-    }
-
-    // FIX: Define the tick function to ONLY update links
-    function tick() {
-        const currentScaledDimension = BASE_NODE_DIMENSION * currentNodeSizeFactor;
-        linkGroup.selectAll('line.link').each(function(d) {
-            if (d.source && d.target) {
-                const sourcePoint = getIntersectionPoint(d.source, d.target, currentScaledDimension, currentScaledDimension);
-                const targetPoint = getIntersectionPoint(d.target, d.source, currentScaledDimension, currentScaledDimension);
-                d3.select(this).attr('x1', sourcePoint.x).attr('y1', sourcePoint.y).attr('x2', targetPoint.x).attr('y2', targetPoint.y);
-            }
-        });
+            .force('center', d3.forceCenter(vW / 2, vH / 2))
+            .on("tick", ticked); // FIX: Connect simulation to the ticked function
+            
+        const zoom = d3.zoom()
+            .filter(event => !event.target.closest('.node-group'))
+            .on('zoom', (event) => {
+                mainZoomGroup.attr('transform', event.transform);
+            });
+        svg.call(zoom).on("dblclick.zoom", null);
     }
     
-    // FIX: Redefined the drag behavior
+    // FIX: Simplified drag handlers
+    function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+        d3.select(this).classed('dragging', true);
+    }
+
+    function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+    }
+
+    function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        // Do not null out fx and fy to keep the node fixed
+        d3.select(this).classed('dragging', false);
+    }
+
     const drag = d3.drag()
-        .on('start', function(event, d) {
-            if (connectorMode) return;
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            d3.select(this).classed('dragging', true);
-        })
-        .on('drag', function(event, d) {
-            if (connectorMode) return;
-            d.fx = event.x;
-            d.fy = event.y;
-            // Visually move the node group and update links
-            d3.select(this).attr('transform', `translate(${d.fx}, ${d.fy})`);
-            tick();
-        })
-        .on('end', function(event, d) {
-            if (connectorMode) return;
-            if (!event.active) simulation.alphaTarget(0);
-            d3.select(this).classed('dragging', false);
-        });
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
     
     function update() {
         if (!svg || !simulation) return;
         updateLegendDisplay();
-        const currentScaledDimension = BASE_NODE_DIMENSION * currentNodeSizeFactor;
         
         simulation.nodes(data.nodes);
         if(data.links.length > 0) { 
@@ -352,20 +364,7 @@
             simulation.force('link', null);
         }
 
-        // FIX: The simulation no longer triggers the tick function automatically.
-        // It just runs in the background to update node data (d.x, d.y).
-        simulation.on('tick', () => {
-             // The visual update of node positions is now handled by drag and initial placement
-             // but we still need to update links if the simulation is running for new nodes.
-             tick();
-        });
-
-
         if (isInitialLayout) {
-            simulation.stop();
-            for (let i = 0, n = Math.ceil(Math.log(simulation.alphaMin()) / Math.log(1 - simulation.alphaDecay())); i < n; ++i) {
-                simulation.tick();
-            }
             data.nodes.forEach(d => {
                 d.fx = d.x;
                 d.fy = d.y;
@@ -388,9 +387,6 @@
         
         node = nodeEnter.merge(node);
         
-        // FIX: Set initial position here. It will only be updated by the drag handler after this.
-        node.attr('transform', d => `translate(${d.fx || d.x || 0}, ${d.fy || d.y || 0})`);
-        
         node.on('click', (event, d) => {
             if (event.defaultPrevented) return; 
             event.stopPropagation();
@@ -406,10 +402,8 @@
                     );
                     if (!linkExists) {
                         data.links.push({ source: connectorStartNode.id, target: d.id });
-                        simulation.nodes(data.nodes); // re-add nodes to simulation
-                        simulation.force('link').links(data.links); // re-add links
-                        simulation.alpha(0.3).restart(); // restart simulation
-                        update();
+                        simulation.force('link').links(data.links);
+                        simulation.alpha(0.3).restart();
                     }
                     connectorMode = false;
                     connectorStartNode = null;
@@ -421,6 +415,7 @@
             }
         });
 
+        const currentScaledDimension = BASE_NODE_DIMENSION * currentNodeSizeFactor;
         node.select('foreignObject')
             .attr('width', currentScaledDimension).attr('height', currentScaledDimension)
             .attr('x', -currentScaledDimension / 2).attr('y', -currentScaledDimension / 2);
@@ -447,13 +442,12 @@
             else { pillDiv.style('display', 'none'); }
         });
         
-        // Final call to draw links correctly on initial load
-        tick(); 
+        simulation.alpha(0.3).restart();
     }
 
     function getIntersectionPoint(sourceNode, targetNode, width, height) {
-        const sx = sourceNode.fx || sourceNode.x, sy = sourceNode.fy || sourceNode.y;
-        const tx = targetNode.fx || targetNode.x, ty = targetNode.fy || targetNode.y;
+        const sx = sourceNode.x, sy = sourceNode.y;
+        const tx = targetNode.x, ty = targetNode.y;
         const dx = tx - sx, dy = ty - sy;
         if (dx === 0 && dy === 0) { return { x: sx, y: sy }; }
         const halfWidth = width / 2, halfHeight = height / 2;
@@ -488,10 +482,8 @@
         const nN = { id: nId, name: 'New Task Node', status: 'Not Started', responsible: '', deadline: '', priority: 'Normal', actionDescription: '[]', color: null, x: iX, y: iY, fx: null, fy: null }; // New nodes are not fixed
         data.nodes.push(nN);
         
-        // Re-engage the simulation
         simulation.nodes(data.nodes);
         simulation.alpha(0.5).restart();
-        update();
     }
     function updateNodeSizes() { if (!simulation) return; const sD = BASE_NODE_DIMENSION * currentNodeSizeFactor; simulation.force('collide').radius((sD * 0.55) + 25); simulation.force('charge').strength(-1800 * (sD / 160)); simulation.alpha(0.3).restart(); update(); }
     
