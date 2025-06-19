@@ -300,9 +300,10 @@
         linkGroup = mainZoomGroup.append('g').attr('class', 'links');
         nodeGroup = mainZoomGroup.append('g').attr('class', 'nodes');
         
-        // FIX: Re-introduce the ticked function
+        // FIX: The ticked function's only job is to update the visual positions of nodes and links.
         function ticked() {
             const currentScaledDimension = BASE_NODE_DIMENSION * currentNodeSizeFactor;
+            
             nodeGroup.selectAll('g.node-group')
                 .attr('transform', d => `translate(${d.x},${d.y})`);
             
@@ -319,7 +320,7 @@
             .force('charge', d3.forceManyBody().strength(-1800 * (BASE_NODE_DIMENSION / 160)))
             .force('collide', d3.forceCollide().radius((BASE_NODE_DIMENSION * 0.55) + 25).strength(0.9))
             .force('center', d3.forceCenter(vW / 2, vH / 2))
-            .on("tick", ticked); // FIX: Connect simulation to the ticked function
+            .on("tick", ticked); // FIX: Connect simulation data changes to the visual ticked function.
             
         const zoom = d3.zoom()
             .filter(event => !event.target.closest('.node-group'))
@@ -329,7 +330,7 @@
         svg.call(zoom).on("dblclick.zoom", null);
     }
     
-    // FIX: Simplified drag handlers
+    // FIX: These drag handlers follow the standard D3 pattern.
     function dragstarted(event, d) {
         if (!event.active) simulation.alphaTarget(0.3).restart();
         d.fx = d.x;
@@ -344,7 +345,7 @@
 
     function dragended(event, d) {
         if (!event.active) simulation.alphaTarget(0);
-        // Do not null out fx and fy to keep the node fixed
+        // We leave fx and fy set so the node stays where the user dropped it.
         d3.select(this).classed('dragging', false);
     }
 
