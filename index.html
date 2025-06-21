@@ -352,10 +352,11 @@
       <button id="nodeSizeDecreaseBtn" data-tooltip-text="Decrease Node Size"><i class="fas fa-minus"></i></button>
       <button id="aiAssistantBtn" data-tooltip-text="AI Assistant (turn off 'Full Screen')"><i class="fas fa-lightbulb"></i></button>
       <button id="userGuideBtn" data-tooltip-text="User Guide"><i class="fas fa-book-open"></i></button>
-      <!-- UPDATED: Tooltip for Color Legend -->
       <button id="colorLegendBtn" data-tooltip-text="Color/Connector Legend"><i class="fas fa-palette"></i></button>
       <button id="templateBtn" data-tooltip-text="Load a Template" style="display: none;"><i class="fas fa-file-alt"></i></button>
       <button id="projectDescBtn" data-tooltip-text="Project Description"><i class="fas fa-info-circle"></i></button>
+      <!-- NEW: Add New Node button in the header -->
+      <button id="addNodeHeaderBtn" data-tooltip-text="Add New Node"><i class="fas fa-sitemap"></i></button>
       <button id="addConnectorBtn" data-tooltip-text="Add Connector"><i class="fas fa-link"></i></button>
       <button id="saveBtn" data-tooltip-text="Save Flowchart (Demo Mode)"><i class="fas fa-floppy-disk"></i></button>
       <button id="shareBtn" data-tooltip-text="Share"><i class="fas fa-share-alt"></i></button>
@@ -392,7 +393,7 @@
       <div class="color-swatch" data-color="#9b59b6" data-tooltip-text="Key Milestones"></div>
       <div class="color-swatch" data-color="#34495e" data-tooltip-text="Dark Gray"></div>
   </div>
-  <div class="action-buttons"><button type="submit" class="modal-btn">Save Node</button><button type="button" class="modal-btn" id="addNodeBtn">Add Child Node</button></div><div style="text-align: center; margin-top: 20px;"><button type="button" id="deleteNodeBtn" class="modal-btn danger">Delete Node</button></div></form></div></div>
+  <div class="action-buttons"><button type="submit" class="modal-btn">Save Node</button></div><div style="text-align: center; margin-top: 20px;"><button type="button" id="deleteNodeBtn" class="modal-btn danger">Delete Node</button></div></form></div></div>
   
   <div id="demoSaveModal" class="modal">
     <div class="modal-content">
@@ -1262,17 +1263,13 @@
         let iX, iY;
 
         // Position new node relative to parent if parent exists, else in safe area
-        if (pN && typeof pN.x === 'number' && typeof pN.y === 'number') {
-            iX = pN.x + (Math.random() * 100 - 50);
-            iY = pN.y + cSD * 1.2; 
-        } else {
-            const safeArea = getSafePositioningArea();
-            iX = safeArea.centerX + (Math.random() * 200 - 100);
-            iY = safeArea.centerY + (Math.random() * 100 - 50);
-        }
+        // MODIFIED: Always use safe area positioning for new nodes from header button
+        const safeArea = getSafePositioningArea();
+        iX = safeArea.centerX + (Math.random() * 200 - 100);
+        iY = safeArea.centerY + (Math.random() * 100 - 50);
+        
 
         // Clamp new node position to safe area
-        const safeArea = getSafePositioningArea();
         iX = Math.max(safeArea.left + cSD / 2, Math.min(iX, safeArea.right - cSD / 2));
         iY = Math.max(safeArea.top + cSD / 2, Math.min(iY, safeArea.bottom - cSD / 2));
 
@@ -1364,6 +1361,12 @@
         g('templateBtn').onclick = () => { g('templateModal').style.display = 'block'; };
         document.querySelectorAll('#templateModal .modal-btn').forEach((b) => (b.onclick = (e) => { loadTemplate(e.target.dataset.template); g('templateModal').style.display = 'none'; }));
         
+        // NEW: Add New Node button handler
+        g('addNodeHeaderBtn').onclick = (e) => { 
+            e.preventDefault(); 
+            createNode(); // Call createNode without a parent, so it defaults to safe area positioning
+        };
+
         const addConnBtn = g('addConnectorBtn');
         addConnBtn.addEventListener('click', () => { 
             connectorMode = !connectorMode; 
@@ -1374,7 +1377,8 @@
                 nodeGroup.selectAll('.flowchart-node-html').style('outline', 'none');
             }
         });
-        g('addNodeBtn').onclick = (e) => { e.preventDefault(); const nN = createNode(selectedNode); if (nN) { selectedNode = nN; nodeClick({ stopPropagation: () => {}, defaultPrevented: false }, nN); } };
+        // REMOVED: addNodeBtn click handler from modal
+        // g('addNodeBtn').onclick = (e) => { e.preventDefault(); const nN = createNode(selectedNode); if (nN) { selectedNode = nN; nodeClick({ stopPropagation: () => {}, defaultPrevented: false }, nN); } };
         
         // Keep save button disabled for demo
         g('saveBtn').onclick = demoSaveToFile;
